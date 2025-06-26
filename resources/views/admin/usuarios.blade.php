@@ -1,6 +1,6 @@
 @extends('recursos.barra')
 
-@section('docentes')
+@section('usuarios')
     <div class="content-wrapper">
         <div class="row">
             <div class="col-sm-12">

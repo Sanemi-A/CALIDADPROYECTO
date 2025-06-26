@@ -255,31 +255,26 @@
                     </li>
                 </ul>
             </nav>
-            <!-- partial -->
+
             <div class="main-panel">
 
 
 
 
                 @yield('dashboard')
+                @yield('usuarios')
        
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.html -->
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
 
                         <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">Area contable Cofimar © 2025</span>
                     </div>
                 </footer>
-                <!-- partial -->
             </div>
-            <!-- main-panel ends -->
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <!-- Vendor base scripts -->
+
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
 
     <!-- Plugin JS (antes de dependencias que los usen) -->
