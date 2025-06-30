@@ -30,7 +30,7 @@
                                 <div class="col-sm-12">
                                     <div class="statistics-details d-flex align-items-center justify-content-between">
                                         <div>
-                                            <p class="statistics-title">Notas de pedidos</p>
+                                            <p class="statistics-title"></p>
                                             <h3 class="rate-percentage">32 <i
                                                     class="dropdown-item-icon mdi mdi-account-group-outline text-primary me-2"></i>
                                             </h3>

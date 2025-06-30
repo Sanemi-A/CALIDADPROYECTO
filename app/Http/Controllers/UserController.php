@@ -2,42 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; // Importar el modelo User
-use App\Models\Roles; // Importar el modelo Role
+use App\Models\User;
+use App\Models\Roles;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash; // Importar Hash para cifrar contraseñas
-use Illuminate\Support\Facades\Storage; // Importar Storage para manejar archivos
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // UserController.php
 
 
     public function index()
     {
-        // Obtener usuarios con sus roles
         $usuarios = User::with('role')->get();
-        $roles = Roles::all(); // Obtener todos los roles
+        $roles = Roles::all();
 
-        // Pasar ambas variables a la vista
         return view('admin.usuarios', compact('usuarios', 'roles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $roles = Roles::all(); // Obtener todos los roles
-        return view('admin.usuarios', compact('roles')); // Retornar la vista de creación
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         try {
@@ -51,16 +35,12 @@ class UserController extends Controller
                 'rol_id' => 'required|exists:roles,id',
                 'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-
-            // Ruta por defecto si no se sube una imagen
             $rutaFoto = 'fotos_usuarios/usuario.png';
 
-            // Si se sube una imagen, se almacena en el disco 'public'
             if ($request->hasFile('foto')) {
                 $rutaFoto = $request->file('foto')->store('fotos_usuarios', 'public');
             }
 
-            // Creación del usuario
             User::create([
                 'dni' => $request->dni,
                 'nombres' => $request->nombres,
@@ -82,24 +62,6 @@ class UserController extends Controller
         return redirect()->route('usuarios');
     }
 
-
-
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $user = User::findOrFail($id); // Buscar el usuario
-        $roles = Roles::all(); // Obtener todos los roles
-        return view('admin.usuarios', compact('user', 'roles')); // Retornar la vista de edición
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    
 
     public function update(Request $request, $id)
     {
@@ -125,14 +87,11 @@ class UserController extends Controller
                 'rol_id'
             ]);
 
-            // Si se sube una nueva foto
             if ($request->hasFile('foto')) {
-                // Solo elimina la foto anterior si no es la imagen por defecto
                 if ($user->foto !== 'fotos_usuarios/usuario.png' && Storage::disk('public')->exists($user->foto)) {
                     Storage::disk('public')->delete($user->foto);
                 }
 
-                // Guarda la nueva foto
                 $rutaFoto = $request->file('foto')->store('fotos_usuarios', 'public');
                 $datos['foto'] = $rutaFoto;
             }
@@ -150,16 +109,11 @@ class UserController extends Controller
     }
 
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         try {
             $user = User::findOrFail($id);
 
-            // Eliminar la foto si no es la imagen por defecto
             if ($user->foto !== 'fotos_usuarios/usuario.png' && Storage::disk('public')->exists($user->foto)) {
                 Storage::disk('public')->delete($user->foto);
             }
@@ -170,6 +124,31 @@ class UserController extends Controller
             session()->flash('toast_type', 'warning');
         } catch (\Exception $e) {
             session()->flash('toast_message', 'Error al eliminar el usuario: ' . $e->getMessage());
+            session()->flash('toast_type', 'error');
+        }
+
+        return redirect()->route('usuarios');
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        try {
+            // Validación
+            $request->validate([
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+
+            // Buscar usuario
+            $user = User::findOrFail($id);
+
+            // Actualizar contraseña
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            session()->flash('toast_message', 'Contraseña actualizada correctamente.');
+            session()->flash('toast_type', 'success');
+        } catch (\Exception $e) {
+            session()->flash('toast_message', 'Error al actualizar la contraseña: ' . $e->getMessage());
             session()->flash('toast_type', 'error');
         }
 

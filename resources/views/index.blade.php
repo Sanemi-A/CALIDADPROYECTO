@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSRF Token -->
-    <title>Coficop</title>
+    <title>Cinfo</title>
     <link rel="manifest" href="/manifest.json">
     <!-- Styles -->
     <link href="assets/login/estiilo1.css" rel="stylesheet" />
@@ -54,21 +54,21 @@
                                     <div class="mb-3 form-group form-required">
                                         <label class="form-label">Correo electrónico</label>
                                         <input type="email" class="form-control" name="email"
-                                            value="{{ old('email', request()->cookie('email')) }}" required>
+                                            value="{{ old('email', $email ?? '') }}" required>
                                     </div>
 
                                     <!-- Campo para la contraseña -->
                                     <div class="mb-2 form-group form-required">
                                         <label class="form-label">Contraseña</label>
                                         <input type="password" id="password" class="form-control" name="password"
-                                            value="{{ request()->cookie('password') }}" required autocomplete="off">
+                                            required autocomplete="off">
                                     </div>
 
-                                    <!-- Checkbox "Recordarme" -->  
+                                    <!-- Checkbox "Recordarme" -->
                                     <div class="mb-2">
                                         <label class="form-check">
                                             <input type="checkbox" class="form-check-input" name="remember"
-                                                {{ request()->cookie('remember') ? 'checked' : '' }}>
+                                                {{ old('remember', $remember) ? 'checked' : '' }}>
                                             <span class="form-check-label">Recordarme en este dispositivo</span>
                                         </label>
                                     </div>
@@ -77,11 +77,16 @@
                                     <div class="form-footer">
                                         <button type="submit" class="btn btn-blue w-100">Ingresar</button>
                                     </div>
+                                    <div id="bloqueo-mensaje"
+                                        class="alert alert-warning py-1 px-2 mt-3 d-none text-center small rounded-3 shadow-sm border">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>
+                                        <span>Demasiados intentos fallidos. Intenta de nuevo en <br><strong
+                                                id="tiempo-restante">60</strong> segundos.</span>
+                                    </div>
+
+
                                 </div>
                             </form>
-
-
-
                             <div class="text-center text-muted mt-3">
                                 ¿Tienes problemas para ingresar? <a href="#" tabindex="-1" target="_blank">Te
                                     ayudamos</a>
@@ -90,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
             </div>
         </div>
@@ -100,6 +105,64 @@
     <div id="mensaje_container"></div>
     <!-- MODAL -->
     <!-- Tabler Core -->
+
+    {{-- <script>
+        const maxIntentos = 10;
+        const tiempoBloqueo = 60;
+        const form = document.querySelector('form');
+        const mensajeBloqueo = document.getElementById('bloqueo-mensaje');
+        const tiempoRestante = document.getElementById('tiempo-restante');
+
+        const claveIntentos = 'login_intentos';
+        const claveBloqueo = 'login_bloqueado_hasta';
+
+        const ahora = Math.floor(Date.now() / 1000);
+        const bloqueadoHasta = localStorage.getItem(claveBloqueo);
+
+        // Si aún está bloqueado
+        if (bloqueadoHasta && ahora < bloqueadoHasta) {
+            bloquearFormulario(bloqueadoHasta - ahora);
+        }
+
+        form.addEventListener('submit', (e) => {
+            // Si está bloqueado, no enviar
+            if (localStorage.getItem(claveBloqueo) && ahora < localStorage.getItem(claveBloqueo)) {
+                e.preventDefault();
+                return;
+            }
+
+            // Simula fallo (esto es solo para probar; en real se haría desde Laravel)
+            let intentos = parseInt(localStorage.getItem(claveIntentos)) || 0;
+            intentos++;
+            localStorage.setItem(claveIntentos, intentos);
+
+            if (intentos >= maxIntentos) {
+                const desbloqueo = ahora + tiempoBloqueo;
+                localStorage.setItem(claveBloqueo, desbloqueo);
+                bloquearFormulario(tiempoBloqueo);
+                e.preventDefault();
+            }
+        });
+
+        function bloquearFormulario(segundos) {
+            form.querySelector('button[type="submit"]').disabled = true;
+            mensajeBloqueo.classList.remove('d-none');
+
+            const intervalo = setInterval(() => {
+                segundos--;
+                tiempoRestante.textContent = segundos;
+
+                if (segundos <= 0) {
+                    clearInterval(intervalo);
+                    mensajeBloqueo.classList.add('d-none');
+                    form.querySelector('button[type="submit"]').disabled = false;
+                    localStorage.removeItem(claveIntentos);
+                    localStorage.removeItem(claveBloqueo);
+                }
+            }, 1000);
+        }
+    </script> --}}
+
 
 
 </body>

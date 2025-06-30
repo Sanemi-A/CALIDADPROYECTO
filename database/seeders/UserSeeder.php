@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'apellido_materno' => 'Choqque',
             'email' => 'michael@gmail.edu.pe',
             'foto' => 'fotos_usuarios/usuario.png',
-            'password' => bcrypt('123'),
+            'password' => '123',
             'rol_id' => $adminRole->id,
         ]);
 

@@ -5,8 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard | cofi</title>
-    <!-- plugins:css -->
+    <title>@yield('title', 'inicio | Cindo')</title>
+
     <link rel="stylesheet" href="{{ asset('assets/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/ti-icons/css/themify-icons.css') }}">
@@ -19,37 +19,14 @@
 
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
+
     <link rel="stylesheet" href="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-toast-plugin/jquery.toast.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/js/select.dataTables.min.css') }}">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-    <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/logo.png" />
-    <style>
-        /* Reducir el tamaño de la letra de los botones de paginación */
-        .dataTables_paginate .paginate_button {
-            font-size: 6px;
-            /* Ajusta el tamaño de la fuente aquí */
-        }
-
-        /* También puedes ajustar el tamaño de los iconos de las flechas, si es necesario */
-        .dataTables_paginate .paginate_button i {
-            font-size: 12px;
-            /* Ajusta el tamaño de los iconos de las flechas */
-        }
-
-        /* Cambiar tamaño de la letra en el botón activo */
-        .dataTables_paginate .paginate_button.current {
-            font-size: 6px;
-            /* Asegurarse de que el tamaño del texto del botón activo también sea pequeño */
-        }
-    </style>
-
 
 </head>
 
@@ -199,53 +176,17 @@
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="">Responsables</a></li>
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="">Clientes</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="">Responsables</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="">Clientes</a></li>
 
 
                             </ul>
                         </div>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#tesis-basic" aria-expanded="false"
-                            aria-controls="tesis-basic">
-                            <i class="menu-icon mdi mdi-file-chart-outline"></i>
-                            <span class="menu-title">Administracion</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="tesis-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="">Notas de pedido</a></li>
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="pages/tesis-features/dropdowns.html">pagos</a></li>
 
 
-                            </ul>
-                        </div>
-                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#conf-basic" aria-expanded="false"
-                            aria-controls="conf-basic">
-                            <i class="menu-icon mdi mdi-file-chart-outline"></i>
-                            <span class="menu-title">Configuraciones</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="conf-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="">Estados
-                                        de notas</a></li>
-
-                                <li class="nav-item"> <a class="nav-link"
-                                        href="">Medios de pago</a></li>
-
-                            </ul>
-                        </div>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#">
@@ -263,11 +204,14 @@
 
                 @yield('dashboard')
                 @yield('usuarios')
-       
+
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
 
-                        <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">Area contable Cofimar © 2025</span>
+                        <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">
+                            Centro de Informática UNAMAD © {{ date('Y') }}
+                        </span>
+
                     </div>
                 </footer>
             </div>
@@ -275,74 +219,28 @@
         <!-- page-body-wrapper ends -->
     </div>
 
-    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/dropify/dropify.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
 
-    <!-- Plugin JS (antes de dependencias que los usen) -->
-    <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <script src="assets/vendors/chart.js/chart.umd.js"></script>
-    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="assets/vendors/dropify/dropify.min.js"></script>
-    <script src="assets/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
+    <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('assets/js/template.js') }}"></script>
+    <script src="{{ asset('assets/js/settings.js') }}"></script>
+    <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
+    <script src="{{ asset('assets/js/todolist.js') }}"></script>
 
-    <!-- Color Picker Plugins -->
-    <script src="assets/vendors/jquery-asColorPicker/jquery-asColor.min.js"></script>
-    <script src="assets/vendors/jquery-asColorPicker/jquery-asGradient.min.js"></script>
-    <script src="assets/vendors/jquery-asColorPicker/jquery-asColorPicker.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.cookie.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/tooltips.js') }}"></script>
+    <script src="{{ asset('assets/js/popover.js') }}"></script>
 
-    <!-- DataTables -->
-    <script src="assets/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="{{ asset('assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('assets/js/llamartablas.js') }}"></script>
 
-    <!-- Core Template JS -->
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/hoverable-collapse.js"></script>
-    <script src="assets/js/template.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
-
-    <!-- Custom Page Scripts -->
-    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="assets/js/dashboard.js"></script>
-    <script src="assets/js/form-addons.js"></script>
-    <script src="assets/js/inputmask.js"></script>
-    <script src="assets/js/formpickers.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#order-listing').DataTable({
-                "language": {
-                    "paginate": {
-                        "previous": "<i class=' icon-arrow-left'></i>", // Flecha izquierda
-                        "next": "<i class='icon-arrow-right'></i>", // Flecha derecha
-                        "first": "<i class='fas fa-angle-double-left'></i>", // Primer página
-                        "last": "<i class='fas fa-angle-double-right'></i>" // Última página
-                    },
-                    "lengthMenu": "Mostrar _MENU_ ", // Ajuste del texto de la longitud
-                    "search": "Buscar:", // Ajuste del texto de búsqueda
-                    "zeroRecords": "No se encontraron resultados", // Ajuste cuando no hay resultados
-                    "info": " _START_ - _END_ de _TOTAL_ ", // Ajuste de info
-                    "infoEmpty": "Mostrando 0 a 0 de 0 registros", // Ajuste cuando no hay registros
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)" // Ajuste cuando se filtra
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Asegúrate de que el selector de color está siendo inicializado correctamente
-            $('.color-picker').asColorPicker();
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#color').asColorPicker({
-                mode: 'complex', // Permite opciones avanzadas
-                palettes: true, // Muestra una paleta de colores
-                sliders: true,  // Habilita los deslizadores (para ajustes de gradiente, etc.)
-            });
-        });
-    </script>
-    
 
     @if (session('toast_message') && session('toast_type'))
         <script>
@@ -410,7 +308,7 @@
             'use strict';
             $('.dropify').dropify({
                 messages: {
-                    'default': 'Arrastra y suelta el archivo aquí o haz clic',
+                    'default': 'Arrastra un archivo o haz clic aquí',
                     'replace': 'Arrastra y suelta o haz clic para reemplazar',
                     'remove': 'Eliminar',
                     'error': 'Formato no soportado'

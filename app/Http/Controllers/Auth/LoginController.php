@@ -73,7 +73,6 @@ class LoginController extends Controller
     {
         if ($remember) {
             Cookie::queue('email', $request->email, 60 * 24 * 7);
-            Cookie::queue('password', Crypt::encryptString($request->password), 60 * 24 * 7);
             Cookie::queue('remember', true, 60 * 24 * 7);
         } else {
             $this->clearRememberMeCookies();
@@ -83,7 +82,6 @@ class LoginController extends Controller
     private function clearRememberMeCookies()
     {
         Cookie::queue(Cookie::forget('email'));
-        Cookie::queue(Cookie::forget('password'));
         Cookie::queue(Cookie::forget('remember'));
     }
 }

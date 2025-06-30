@@ -1,0 +1,156 @@
+Table roles {
+  id_rol int [pk, increment]
+  nombre_rol varchar(100) [note: "Administrador, Cocineros, etc."]
+  descripcion text
+  estado bool
+  created_at timestamp [default: `now()`]
+}
+
+Table usuarios {
+  id_usuario int [pk, increment]
+  documento int [unique, note: "Número de documento de identidad"]
+  nombres varchar(255)
+  apellido_p varchar(255)
+  apellido_m varchar(255)
+  telefono varchar(15)
+  correo varchar(255) [unique]
+  direccion varchar(255)
+  id_rol int [ref: > roles.id_rol]
+  contraseña varchar(255)
+  created_at timestamp [default: `now()`]
+}
+
+Table personas {
+  id_persona int [pk, increment]
+  dni varchar(15) [unique]
+  nombres varchar(100)
+  apellido_paterno varchar(100)
+  apellido_materno varchar(100)
+  celular varchar(20)
+  correo varchar(100)
+  direccion varchar(255)
+  genero enum('M', 'F')
+  edad tinyint
+  created_at timestamp [default: `now()`]
+}
+
+Table carreras {
+  id_carrera int [pk, increment]
+  nombre varchar(255)
+  prefijo varchar (3)
+}
+
+Table docentes {
+  id_docente int [pk, increment]
+  id_persona int [ref: > personas.id_persona]
+  especialidad varchar(100)
+  grado_academico varchar(100)
+  cv_url text
+  estado bool [default: true]
+  created_at timestamp [default: `now()`]
+}
+
+Table niveles {
+  id_nivel int [pk, increment]
+  nombre varchar(50) [note: "básico, intermedio, avanzado"]
+}
+
+Table programas {
+  id_programa int [pk, increment]
+  nombre varchar(100) [note: "ordinario, intensivo, virtual, etc."]
+}
+
+Table cursos {
+  id_curso int [pk, increment]
+  nombre_curso varchar(100)
+  id_programa int [ref: > programas.id_programa]
+  nomenclatura varchar(100)
+  id_docente int [ref: > docentes.id_docente] //ultimo
+  id_nivel int [ref: > niveles.id_nivel]
+  estado enum('ACTIVO', 'INACTIVO', 'CULMINADO') [default: 'ACTIVO']
+
+  created_at timestamp [default: `now()`]
+}
+
+Table curso_horarios {
+  id_horario int [pk, increment]
+  id_curso int [ref: > cursos.id_curso]
+  hora_inicio time
+  hora_fin time
+  duracion_meses tinyint [note: "Ej: 2 meses = 2"]
+  modalidad varchar(50) 
+  precio_mensual decimal(10,2) [note: "Precio por mes"]
+  estado enum('ACTIVO', 'INACTIVO', 'FINALIZADO') [default: 'ACTIVO']
+  created_at timestamp [default: `now()`]
+}
+
+Table curso_horario_dias {
+  id_horario_dia int [pk, increment]
+  id_horario int [ref: > curso_horarios.id_horario]
+  dia_semana varchar(10) [note: "Ej: Lunes, Martes, ..."]
+}
+
+
+Table estudiantes {
+  id_estudiante int [pk, increment]
+  id_persona int [ref: > personas.id_persona]
+  tipo_alumno varchar(50) [note: "Estudiante vigente, Egresado, Particular."]
+  id_carrera int [ref: > carreras.id_carrera, note: "Solo si es estudiante vigente"]
+  codigo_estudiante varchar(50) [note: "Solo si es estudiante vigente"]
+  estado enum('ACTIVO', 'INACTIVO', 'EGRESADO') [default: 'ACTIVO']
+  created_at timestamp [default: `now()`]
+}
+
+
+Table matriculas {
+  id_matricula int [pk, increment]
+  id_estudiante int [ref: > estudiantes.id_estudiante]
+  id_horario int [ref: > curso_horarios.id_horario]
+  fecha_registro date
+  responsable varchar(100)
+
+  tipo_beca varchar(100) [note: "Ej: BECA INTEGRAL, BECA PARCIAL"]
+  documento_beca varchar(255) [note: "Ej: RESOLUCIÓN N° 067-2024-UNAMAD-R-VRA"]
+  descuento_beca tinyint [note: "Porcentaje: 50, 100"]
+  
+  voucher varchar(100) [note: "Código de pago si aplica"]
+  observacion text
+  created_at timestamp [default: `now()`]
+}
+
+
+Table pagos {
+  id_pago int [pk, increment]
+  id_mensualidad int [ref: > mensualidades.id_mensualidad]
+  fecha_pago date
+  monto decimal(10,2)
+  medio_pago varchar(50)
+  referencia_pago varchar(100)
+  observacion text
+  estado enum('CONFIRMADO', 'PENDIENTE', 'ANULADO') [default: 'CONFIRMADO']
+  created_at timestamp [default: `now()`]
+}
+
+
+Table mensualidades {
+  id_mensualidad int [pk, increment]
+  id_matricula int [ref: > matriculas.id_matricula]
+  numero_cuota tinyint [note: "1, 2, 3, ..."]
+  fecha_vencimiento date
+  monto decimal(10,2)
+  estado enum('PENDIENTE', 'PAGADO', 'VENCIDO') [default: 'PENDIENTE']
+  created_at timestamp [default: `now()`]
+}
+
+Table certificados {
+  id_certificado int [pk, increment]
+  id_matricula int [ref: > matriculas.id_matricula]
+  codigo_certificado varchar(50) [unique, note: "Ej: CERT-2025-0001"]
+  fecha_emision date
+  url_archivo text [note: "Ruta al archivo generado o subido"]
+  estado enum('GENERADO', 'ENTREGADO', 'ANULADO') [default: 'GENERADO']
+  observacion text
+  created_at timestamp [default: `now()`]
+}
+
+
