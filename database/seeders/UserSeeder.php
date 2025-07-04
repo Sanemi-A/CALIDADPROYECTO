@@ -2,35 +2,48 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Roles;
+use App\Models\Persona;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        // Obtener los roles para asignarlos a los usuarios
-        $adminRole = Roles::where('nombre', 'Administrador')->first();
-        $editorRole = Roles::where('nombre', 'Editor')->first();
-        $userRole = Roles::where('nombre', 'Usuario')->first();
+        // Obtener las personas por su documento
+        $persona1 = Persona::where('documento', '12345678')->first();
+        $persona2 = Persona::where('documento', '87654321')->first();
 
-        // Crear usuarios de ejemplo con los campos correctos
-        User::create([
-            'dni' => '12345678',
-            'nombres' => 'Michael Deyvis',
-            'apellido_paterno' => 'Mamani',
-            'apellido_materno' => 'Choqque',
-            'email' => 'michael@gmail.edu.pe',
-            'foto' => 'fotos_usuarios/usuario.png',
-            'password' => '123',
-            'rol_id' => $adminRole->id,
-        ]);
+        // Obtener roles
+        $rolProgramador = Roles::where('nombre', 'Programador')->first();
+        $rolAdministrador = Roles::where('nombre', 'Administrador')->first();
 
-        
+        // Crear usuarios
+        if ($persona1 && $rolProgramador) {
+            User::create([
+                'id_persona'        => $persona1->id_persona,
+                'email'             => $persona1->correo,
+                'foto'              => 'fotos_usuarios/usuario.png',
+                'password'          => Hash::make('12345678'),
+                'rol_id'            => $rolProgramador->id,
+                'email_verified_at' => now(),
+                'remember_token'    => Str::random(10),
+            ]);
+        }
+
+        if ($persona2 && $rolAdministrador) {
+            User::create([
+                'id_persona'        => $persona2->id_persona,
+                'email'             => $persona2->correo,
+                'foto'              => 'fotos_usuarios/usuario.png',
+                'password'          => Hash::make('87654321'),
+                'rol_id'            => $rolAdministrador->id,
+                'email_verified_at' => now(),
+                'remember_token'    => Str::random(10),
+            ]);
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\PersonasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
@@ -21,10 +22,22 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
 
+    Route::get('/personas', [PersonasController::class, 'index'])->name('personas');
+
+
+    // Grupo de rutas para usuarios
     Route::prefix('users')->name('users.')->group(function () {
         Route::post('/', [UserController::class, 'store'])->name('store');
         Route::put('/{id}', [UserController::class, 'update'])->name('update');
         Route::put('/{id}/password', [UserController::class, 'updatePassword'])->name('updatePassword');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('personas')->name('personas.')->group(function () {
+        Route::get('/listar', [PersonasController::class, 'listar'])->name('listar');
+        Route::get('/buscar', [PersonasController::class, 'buscarAjax'])->name('buscar');
+        Route::post('/', [PersonasController::class, 'store'])->name('store');
+        Route::put('/{id}', [PersonasController::class, 'update'])->name('update');
+        Route::delete('/{id}', [PersonasController::class, 'destroy'])->name('destroy');
     });
 });

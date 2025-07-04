@@ -19,11 +19,15 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
+
     public function boot()
     {
-        // Compartir la variable $user con todas las vistas
         View::composer('*', function ($view) {
-            $view->with('user', Auth::user());
+            $user = Auth::user();
+            if ($user instanceof \Illuminate\Database\Eloquent\Model) {
+                $user->load(['persona', 'role']);
+            }
+            $view->with('user', $user);
         });
     }
 }

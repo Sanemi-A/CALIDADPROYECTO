@@ -11,7 +11,7 @@
                                 <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#overview"
                                     role="tab" aria-controls="overview" aria-selected="true">Inicio</a>
                             </li>
-                            
+
                         </ul>
                         <div>
                             <div class="btn-wrapper">
@@ -30,42 +30,42 @@
                                 <div class="col-sm-12">
                                     <div class="statistics-details d-flex align-items-center justify-content-between">
                                         <div>
-                                            <p class="statistics-title"></p>
+                                            <p class="statistics-title">Estudiantes</p>
                                             <h3 class="rate-percentage">32 <i
                                                     class="dropdown-item-icon mdi mdi-account-group-outline text-primary me-2"></i>
                                             </h3>
 
                                         </div>
                                         <div>
-                                            <p class="statistics-title">Clientes</p>
+                                            <p class="statistics-title">Cursos</p>
                                             <h3 class="rate-percentage">16 <i
-                                                    class="dropdown-item-icon mdi mdi-file-chart-outline text-primary me-2"></i>
+                                                    class="dropdown-item-icon mdi mdi-book-outline text-primary me-2"></i>
                                             </h3>
 
                                         </div>
                                         <div>
                                             <p class="statistics-title">Pagos</p>
                                             <h3 class="rate-percentage">18 <i
-                                                    class="dropdown-item-icon mdi mdi-account-tie-outline text-primary me-2"></i>
+                                                    class="dropdown-item-icon mdi mdi-credit-card-outline text-primary me-2"></i>
                                             </h3>
 
                                         </div>
                                         <div class="d-none d-md-block">
-                                            <p class="statistics-title">Observados</p>
+                                            <p class="statistics-title">Registros</p>
                                             <h3 class="rate-percentage">7 <i
                                                     class="dropdown-item-icon mdi mdi-file-chart-check-outline text-primary me-2"></i>
                                             </h3>
 
                                         </div>
                                         <div class="d-none d-md-block">
-                                            <p class="statistics-title">Aprobados</p>
+                                            <p class="statistics-title">Deudas</p>
                                             <h3 class="rate-percentage">20 <i
                                                     class="dropdown-item-icon mdi mdi-file-clock-outline text-primary me-2"></i>
                                             </h3>
 
                                         </div>
                                         <div class="d-none d-md-block">
-                                            <p class="statistics-title">Guias</p>
+                                            <p class="statistics-title">Cancelados</p>
                                             <h3 class="rate-percentage">2 <i
                                                     class="dropdown-item-icon mdi mdi-file-remove-outline text-primary me-2"></i>
                                             </h3>
@@ -82,9 +82,14 @@
                                                 <div class="card-body">
                                                     <div class="d-flex justify-content-between align-items-start">
                                                         <div>
-                                                            <h4 class="modern-user-intro">Hola {{ $user->nombres }}</h4>
-                                                            <h6 class="mdern-welcome-text">{{ $user->role->nombre }}</h6>
+                                                            <h4 class="modern-user-intro">
+                                                                Hola {{ Str::title(Str::lower($user->nombres)) }}
+                                                            </h4>
+                                                            <h6 class="mdern-welcome-text">
+                                                                {{ Str::title(Str::lower($user->role->nombre)) }}
+                                                            </h6>
                                                         </div>
+
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-3">
@@ -101,8 +106,8 @@
                                                         <div class="col-sm-3">
                                                             <a href="#">
                                                                 <div class="bg-opacity-success mb-2 mb-lg-0">
-                                                                    <i class="mdi mdi-home"></i>
-                                                                    <p>Notas de pedidos</p>
+                                                                    <i class="mdi mdi-book"></i>
+                                                                    <p>Cursos</p>
                                                                     <div class="text-end">
                                                                         <i class="mdi mdi-arrow-right"></i>
                                                                     </div>
@@ -114,25 +119,25 @@
                                                             <a href="#">
                                                                 <div class="bg-opacity-info mb-2 mb-lg-0">
                                                                     <i class="mdi mdi-account-check"></i>
-                                                                    <p>Clientes</p>
+                                                                    <p>Estudiantes</p>
                                                                     <div class="text-end">
                                                                         <i class="mdi mdi-arrow-right"></i>
                                                                     </div>
                                                                 </div>
                                                             </a>
-                                                            
+
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <a href="#">
                                                                 <div class="bg-opacity-danger mb-2 mb-lg-0">
                                                                     <i class="mdi mdi-cellphone"></i>
-                                                                    <p>Documentos</p>
+                                                                    <p>Sistema</p>
                                                                     <div class="text-end">
                                                                         <i class="mdi mdi-arrow-right"></i>
                                                                     </div>
                                                                 </div>
                                                             </a>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -335,13 +340,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
 
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-@endsection
+        @endsection

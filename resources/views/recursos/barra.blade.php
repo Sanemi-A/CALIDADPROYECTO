@@ -57,8 +57,10 @@
                     @isset($saludo)
                         <li class="nav-item fw-semibold d-none d-lg-block ms-0">
                             <h1 class="welcome-text" id="saludo">
-                                {{ $saludo }}, <span class="text-black fw-bold" id="user-name">{{ $user->nombres }}
-                                    {{ $user->apellido_paterno }} {{ $user->apellido_materno }}</span>
+                                {{ $saludo }}, <span class="text-black fw-bold" id="user-name">
+                                    {{ Str::title(Str::lower($user->nombres . ' ' . $user->apellido_paterno . ' ' . $user->apellido_materno)) }}
+                                </span>
+
                             </h1>
                             <h3 class="welcome-sub-text"></h3>
                         </li>
@@ -100,7 +102,7 @@
                                     <i class="mdi mdi-lock-outline m-auto text-primary"></i>
                                 </div>
                                 <div class="preview-item-content">
-                                    <h6 class="preview-subject fw-normal text-dark mb-1">Proyecto</h6>
+                                    <h6 class="preview-subject fw-normal text-dark mb-1">2 estudiantes deben etc</h6>
                                     <p class="fw-light small-text mb-0"> prueba </p>
                                 </div>
                             </a>
@@ -162,6 +164,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('personas') }}">Datos personales</a>
+                                </li>
 
                             </ul>
 
@@ -171,12 +176,12 @@
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
                             <i class="menu-icon mdi mdi-floor-plan"></i>
-                            <span class="menu-title">Personas</span>
+                            <span class="menu-title">Estudiantes</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="">Responsables</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="">Lista</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="">Clientes</a></li>
 
 
@@ -184,7 +189,22 @@
                         </div>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-conf" aria-expanded="false"
+                            aria-controls="ui-conf">
+                            <i class="menu-icon mdi mdi-cog-outline"></i>
+                            <span class="menu-title">Configuracion</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ui-conf">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="">Carreras</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="">Niveles</a></li>
 
+
+                            </ul>
+                        </div>
+                    </li>
 
 
 
@@ -204,6 +224,7 @@
 
                 @yield('dashboard')
                 @yield('usuarios')
+                @yield('personas')
 
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">

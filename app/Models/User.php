@@ -11,48 +11,54 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'dni', 
-        'nombres', 
-        'apellido_paterno', 
-        'apellido_materno', 
-        'email', 
-        'foto', 
-        'password', 
-        'rol_id'
+        'id_persona',
+        'email',
+        'foto',
+        'password',
+        'rol_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
-    /**
-     * Relación con Roles
-     * Un usuario pertenece a un rol.
-     */
+
     public function role()
     {
         return $this->belongsTo(Roles::class, 'rol_id');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo(Persona::class, 'id_persona');
+    }
+
+
+    public function getNombreCompletoAttribute()
+    {
+        if ($this->persona) {
+            return "{$this->persona->nombres} {$this->persona->apellido_paterno} {$this->persona->apellido_materno}";
+        }
+        return '';
+    }
+    public function getNombresAttribute()
+    {
+        return $this->persona->nombres ?? '';
+    }
+
+    public function getApellidoPaternoAttribute()
+    {
+        return $this->persona->apellido_paterno ?? '';
+    }
+
+    public function getApellidoMaternoAttribute()
+    {
+        return $this->persona->apellido_materno ?? '';
     }
 }

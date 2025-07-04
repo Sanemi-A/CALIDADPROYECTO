@@ -72,6 +72,7 @@ return [
 
    'timezone' => 'America/Lima',
 
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

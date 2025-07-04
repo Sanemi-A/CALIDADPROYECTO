@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Roles extends Model
 {
     use HasFactory;
-    
+
+    // Tabla asociada (opcional si el nombre ya es "roles")
+    protected $table = 'roles';
+
+    // Campos que se pueden llenar masivamente
     protected $fillable = ['nombre'];
 
-    // Relación con User (un rol puede tener muchos usuarios)
+    // Relación: un rol puede tener muchos usuarios
     public function users()
     {
         return $this->hasMany(User::class, 'rol_id');

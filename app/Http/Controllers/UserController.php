@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $usuarios = User::with('role')->get();
+        $usuarios = User::with(['role', 'persona'])->get();
         $roles = Roles::all();
 
         return view('admin.usuarios', compact('usuarios', 'roles'));
@@ -26,27 +26,21 @@ class UserController extends Controller
     {
         try {
             $request->validate([
-                'dni' => 'nullable|numeric|unique:users',
-                'nombres' => 'required|string|max:255',
-                'apellido_paterno' => 'required|string|max:255',
-                'apellido_materno' => 'required|string|max:255',
-                'email' => 'required|email|unique:users',
+                'id_persona' => 'required|exists:personas,id_persona|unique:users,id_persona',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6',
                 'rol_id' => 'required|exists:roles,id',
                 'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            $rutaFoto = 'fotos_usuarios/usuario.png';
 
+            $rutaFoto = 'fotos_usuarios/usuario.png';
             if ($request->hasFile('foto')) {
                 $rutaFoto = $request->file('foto')->store('fotos_usuarios', 'public');
             }
 
             User::create([
-                'dni' => $request->dni,
-                'nombres' => $request->nombres,
-                'apellido_paterno' => $request->apellido_paterno,
-                'apellido_materno' => $request->apellido_materno,
-                'email' => $request->email,
+                'id_persona' => $request->id_persona,
+                'email' => strtolower($request->email),
                 'password' => Hash::make($request->password),
                 'rol_id' => $request->rol_id,
                 'foto' => $rutaFoto,
@@ -68,35 +62,31 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
 
+            // Validar solo lo que se está enviando
             $request->validate([
-                'dni' => 'nullable|numeric|unique:users,dni,' . $id,
-                'nombres' => 'required|string|max:255',
-                'apellido_paterno' => 'required|string|max:255',
-                'apellido_materno' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $id,
+                'email'  => 'required|email|unique:users,email,' . $id,
                 'rol_id' => 'required|exists:roles,id',
-                'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'foto'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
-            $datos = $request->only([
-                'dni',
-                'nombres',
-                'apellido_paterno',
-                'apellido_materno',
-                'email',
-                'rol_id'
-            ]);
+            // Actualizar correo y rol
+            $user->email  = strtolower($request->email);
+            $user->rol_id = $request->rol_id;
 
+            // Si se subió una nueva foto, reemplazar la anterior
             if ($request->hasFile('foto')) {
-                if ($user->foto !== 'fotos_usuarios/usuario.png' && Storage::disk('public')->exists($user->foto)) {
+                if (
+                    $user->foto &&
+                    $user->foto !== 'fotos_usuarios/usuario.png' &&
+                    Storage::disk('public')->exists($user->foto)
+                ) {
                     Storage::disk('public')->delete($user->foto);
                 }
 
-                $rutaFoto = $request->file('foto')->store('fotos_usuarios', 'public');
-                $datos['foto'] = $rutaFoto;
+                $user->foto = $request->file('foto')->store('fotos_usuarios', 'public');
             }
 
-            $user->update($datos);
+            $user->save();
 
             session()->flash('toast_message', 'Usuario actualizado correctamente.');
             session()->flash('toast_type', 'info');

@@ -19,7 +19,6 @@ class LoginController extends Controller
 
         return view('index')->with([
             'email' => Cookie::get('email'),
-            'password' => Cookie::has('password') ? Crypt::decryptString(Cookie::get('password')) : '',
             'remember' => Cookie::get('remember', false),
         ]);
     }
