@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('curso_horarios', function (Blueprint $table) {
             $table->id('id_horario');
             $table->unsignedBigInteger('id_curso');
+            $table->unsignedBigInteger('id_docente');
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->tinyInteger('duracion_meses')->unsigned()->comment('Ej: 2 meses = 2');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->timestamps();
             
             $table->foreign('id_curso')->references('id_curso')->on('cursos')->onDelete('cascade');
+            $table->foreign('id_docente')->references('id_docente')->on('docentes')->onDelete('cascade');
         });
     }
 

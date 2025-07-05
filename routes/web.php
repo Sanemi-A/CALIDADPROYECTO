@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\EstudiantesController;
 use App\Http\Controllers\admin\PersonasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -24,6 +25,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/personas', [PersonasController::class, 'index'])->name('personas');
 
+    Route::get('/estudiantes', [EstudiantesController::class, 'index'])->name('estudiantes');
+
 
     // Grupo de rutas para usuarios
     Route::prefix('users')->name('users.')->group(function () {
@@ -39,5 +42,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [PersonasController::class, 'store'])->name('store');
         Route::put('/{id}', [PersonasController::class, 'update'])->name('update');
         Route::delete('/{id}', [PersonasController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('estudiantes')->name('estudiantes.')->group(function () {
+        Route::get('/listar', [EstudiantesController::class, 'listar'])->name('listar');
+        Route::get('/buscar', [EstudiantesController::class, 'buscarAjax'])->name('buscar');
+        Route::post('/', [EstudiantesController::class, 'store'])->name('store');
+        Route::put('/{id}', [EstudiantesController::class, 'update'])->name('update');
+        Route::delete('/{id}', [EstudiantesController::class, 'destroy'])->name('destroy');
     });
 });

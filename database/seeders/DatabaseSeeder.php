@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             PersonaSeeder::class,
             UserSeeder::class,
+            TipoAlumnoSeeder::class,
+            CarrerasSeeder::class,
         ]);
     }
 }

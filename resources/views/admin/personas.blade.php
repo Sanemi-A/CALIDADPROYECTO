@@ -464,6 +464,22 @@
                         render: function(id, type, row) {
                             return `
                             <button type="button"
+                                class="btn btn-info shadow btn-xs sharp me-1 btn-ver"
+                                title="Editar persona"
+                                data-id="${id}"
+                                data-tipo_documento="${row.tipo_documento}"
+                                data-documento="${row.documento}"
+                                data-nombres="${row.nombres}"
+                                data-apellido_paterno="${row.apellido_paterno}"
+                                data-apellido_materno="${row.apellido_materno}"
+                                data-genero="${row.genero}"
+                                data-edad="${row.edad}"
+                                data-celular="${row.celular}"
+                                data-correo="${row.correo}"
+                                data-direccion="${row.direccion}">
+                                <i class="mdi mdi-eye"></i>
+                            </button>
+                            <button type="button"
                                 class="btn btn-primary shadow btn-xs sharp me-1 btn-editar"
                                 title="Editar persona"
                                 data-id="${id}"
@@ -479,22 +495,7 @@
                                 data-direccion="${row.direccion}">
                                 <i class="mdi mdi-pencil"></i>
                             </button>
-                            <button type="button"
-                                class="btn btn-primary shadow btn-xs sharp me-1 btn-ver"
-                                title="Editar persona"
-                                data-id="${id}"
-                                data-tipo_documento="${row.tipo_documento}"
-                                data-documento="${row.documento}"
-                                data-nombres="${row.nombres}"
-                                data-apellido_paterno="${row.apellido_paterno}"
-                                data-apellido_materno="${row.apellido_materno}"
-                                data-genero="${row.genero}"
-                                data-edad="${row.edad}"
-                                data-celular="${row.celular}"
-                                data-correo="${row.correo}"
-                                data-direccion="${row.direccion}">
-                                <i class="mdi mdi-eye"></i>
-                            </button>
+                            
                             
 
 

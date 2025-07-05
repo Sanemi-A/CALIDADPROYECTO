@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('carreras', function (Blueprint $table) {
             $table->id('id_carrera');
             $table->string('nombre', 255);
-            $table->string('prefijo', 3);
+            $table->string('prefijo', 5);
             $table->timestamps(); 
         });
     }

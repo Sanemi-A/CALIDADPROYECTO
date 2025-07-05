@@ -12,11 +12,15 @@ class Estudiante extends Model
 
     protected $fillable = [
         'id_persona',
-        'tipo_alumno',
+        'id_tipo_alumno',
         'id_carrera',
         'codigo_estudiante',
+        'foto',
         'estado',
+        'estado_financiero',
+        'estado_disciplinario',
     ];
+
 
     protected $casts = [
         'created_at' => 'datetime',
@@ -27,6 +31,11 @@ class Estudiante extends Model
     public function persona()
     {
         return $this->belongsTo(Persona::class, 'id_persona');
+    }
+
+    public function tipoAlumno()
+    {
+        return $this->belongsTo(TipoAlumno::class, 'id_tipo_alumno');
     }
 
     public function carrera()

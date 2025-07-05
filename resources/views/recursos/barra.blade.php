@@ -27,7 +27,51 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <link rel="shortcut icon" href="assets/images/logo.png" />
+    <style>
+        .pagination {
+            font-size: 0.85rem;
+            gap: 4px;
+        }
 
+        .pagination .page-item .page-link {
+            border-radius: 0.5rem;
+            padding: 0.35rem 0.6rem;
+            border: 1px solid #dee2e6;
+            color: #495057;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .clear-search {
+            background: transparent;
+            border: none;
+            padding: 0 8px;
+            font-size: 1.2rem;
+            color: #888;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .clear-search:hover {
+            color: #444;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #1F3BB3;
+            /* o tu color primario */
+            color: white;
+            border-color: #1F3BB3;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            opacity: 0.5;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #e9ecef;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body class="with-welcome-text">
@@ -145,77 +189,117 @@
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
+
+                    {{-- INICIO --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/inicio') }}">
-                            <i class="mdi mdi-grid-large menu-icon"></i>
+                            <i class="mdi mdi-home menu-icon"></i>
                             <span class="menu-title">Inicio</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">Menus</li>
+
+                    {{-- SISTEMA --}}
+                    <li class="nav-item nav-category">Gestión del sistema</li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false"
-                            aria-controls="auth">
-                            <i class="menu-icon mdi mdi-account-circle-outline"></i>
-                            <span class="menu-title">Sistema</span>
+                        <a class="nav-link" data-bs-toggle="collapse" href="#sistema" aria-expanded="false"
+                            aria-controls="sistema">
+                            <i class="menu-icon mdi mdi-account-cog-outline"></i>
+                            <span class="menu-title">Usuarios & Accesos</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="auth">
+                        <div class="collapse" id="sistema">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('personas') }}">Datos personales</a>
-                                </li>
-
+                                <li class="nav-item"><a class="nav-link" href="{{ route('personas') }}">Datos
+                                        personales</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Roles</a></li>
                             </ul>
-
                         </div>
                     </li>
+
+                    {{-- ESTUDIANTES --}}
+                    <li class="nav-item nav-category">Gestión académica</li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                            aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-floor-plan"></i>
+                        <a class="nav-link" data-bs-toggle="collapse" href="#estudiantes" aria-expanded="false"
+                            aria-controls="estudiantes">
+                            <i class="menu-icon mdi mdi-school-outline"></i>
                             <span class="menu-title">Estudiantes</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="ui-basic">
+                        <div class="collapse" id="estudiantes">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="">Lista</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="">Clientes</a></li>
-
-
+                                <li class="nav-item"><a class="nav-link" href="{{ route('estudiantes') }}">Lista</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="">Matrículas</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Mensualidades</a></li>
                             </ul>
                         </div>
                     </li>
 
+                    {{-- DOCENTES --}}
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-conf" aria-expanded="false"
-                            aria-controls="ui-conf">
-                            <i class="menu-icon mdi mdi-cog-outline"></i>
-                            <span class="menu-title">Configuracion</span>
+                        <a class="nav-link" data-bs-toggle="collapse" href="#docentes" aria-expanded="false"
+                            aria-controls="docentes">
+                            <i class="menu-icon mdi mdi-human-male-board"></i>
+                            <span class="menu-title">Docentes</span>
                             <i class="menu-arrow"></i>
                         </a>
-                        <div class="collapse" id="ui-conf">
+                        <div class="collapse" id="docentes">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="">Carreras</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="">Niveles</a></li>
-
-
+                                <li class="nav-item"><a class="nav-link" href="">Lista</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Contratos</a></li>
                             </ul>
                         </div>
                     </li>
 
-
-
+                    {{-- CURSOS --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="menu-icon mdi mdi-file-document-outline"></i>
-                            <span class="menu-title">Documentos</span>
+                        <a class="nav-link" data-bs-toggle="collapse" href="#cursos" aria-expanded="false"
+                            aria-controls="cursos">
+                            <i class="menu-icon mdi mdi-book-open-variant"></i>
+                            <span class="menu-title">Cursos</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="cursos">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="">Lista de
+                                        cursos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Horarios</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    {{-- CONFIGURACIÓN --}}
+                    <li class="nav-item nav-category">Configuración</li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#configuracion" aria-expanded="false"
+                            aria-controls="configuracion">
+                            <i class="menu-icon mdi mdi-cog-outline"></i>
+                            <span class="menu-title">Parámetros</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="configuracion">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="">Carreras</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Niveles</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Programas</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    {{-- CERTIFICADOS / DOCUMENTOS --}}
+                    <li class="nav-item nav-category">Otros</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <i class="menu-icon mdi mdi-certificate-outline"></i>
+                            <span class="menu-title">Certificados</span>
                         </a>
                     </li>
+
                 </ul>
             </nav>
+
 
             <div class="main-panel">
 
@@ -225,6 +309,7 @@
                 @yield('dashboard')
                 @yield('usuarios')
                 @yield('personas')
+                @yield('estudiantes_lista')
 
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">

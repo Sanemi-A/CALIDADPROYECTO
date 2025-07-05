@@ -1,22 +1,7 @@
 @extends('recursos.barra')
 @section('title', 'usuarios | Cinfo')
 @section('usuarios')
-    <style>
-        .clear-search {
-            background: transparent;
-            border: none;
-            padding: 0 8px;
-            font-size: 1.2rem;
-            color: #888;
-            cursor: pointer;
-            line-height: 1;
-            transition: color 0.2s ease;
-        }
 
-        .clear-search:hover {
-            color: #444;
-        }
-    </style>
     <div class="content-wrapper">
         <div class="row">
             <div class="col-sm-12">

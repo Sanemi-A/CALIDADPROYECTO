@@ -28,4 +28,9 @@ class Persona extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function estudiante()
+    {
+        return $this->hasOne(Estudiante::class, 'id_persona');
+    }
 }
