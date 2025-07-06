@@ -18,7 +18,7 @@ return new class extends Migration
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->tinyInteger('duracion_meses')->unsigned()->comment('Ej: 2 meses = 2');
-            $table->string('modalidad', 50); // presencial, virtual, híbrido
+            $table->string('modalidad', 50);
             $table->decimal('precio_mensual', 10, 2)->comment('Precio por mes');
             $table->enum('estado', ['ACTIVO', 'INACTIVO', 'FINALIZADO'])->default('ACTIVO');
             $table->timestamps();

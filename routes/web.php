@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\admin\EstudiantesController;
 use App\Http\Controllers\admin\PersonasController;
+use App\Http\Controllers\admin\RolesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -27,6 +29,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/estudiantes', [EstudiantesController::class, 'index'])->name('estudiantes');
 
+    Route::controller(RolesController::class)->group(function () {
+        Route::get('/roles', 'index')->name('roles');
+        Route::post('/roles', 'store')->name('roles.store');
+        Route::put('/roles/{id}', 'update')->name('roles.update');
+        Route::delete('/roles/{id}', 'destroy')->name('roles.destroy');
+    });
 
     // Grupo de rutas para usuarios
     Route::prefix('users')->name('users.')->group(function () {

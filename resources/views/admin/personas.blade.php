@@ -1,5 +1,5 @@
 @extends('recursos.barra')
-@section('title', 'Datos personales | Cinfo')
+@section('title', 'Datos personales | Ceinfo')
 @section('personas')
 
     <div class="content-wrapper">

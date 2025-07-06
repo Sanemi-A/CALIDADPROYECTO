@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('title', 'inicio | Cindo')</title>
+    <title>@yield('title', 'inicio | Ceinfo')</title>
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
@@ -213,7 +213,7 @@
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('personas') }}">Datos
                                         personales</a></li>
-                                <li class="nav-item"><a class="nav-link" href="">Roles</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('roles') }}">Roles</a></li>
                             </ul>
                         </div>
                     </li>
@@ -307,19 +307,24 @@
 
 
                 @yield('dashboard')
+                @yield('roles')
                 @yield('usuarios')
                 @yield('personas')
                 @yield('estudiantes_lista')
 
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-
-                        <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">
+                <footer class="footer py-3">
+                    <div class="d-sm-flex justify-content-between align-items-center px-3">
+                        <span class="text-center text-sm-start d-block">
                             Centro de Informática UNAMAD © {{ date('Y') }}
                         </span>
-
+                        <a href="#" class="text-center text-sm-end d-block text-muted"
+                            style="font-style: italic; text-decoration: none;">
+                            <i class="fas fa-code"></i> dev_<strong>SandraX</strong>
+                        </a>
                     </div>
                 </footer>
+
+
             </div>
         </div>
         <!-- page-body-wrapper ends -->

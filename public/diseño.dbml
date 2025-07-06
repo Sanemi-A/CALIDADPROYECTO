@@ -1,6 +1,6 @@
 Table roles {
   id_rol int [pk, increment]
-  nombre_rol varchar(100) [note: "Administrador, Cocineros, etc."]
+  nombre_rol varchar(100) [note: "Administrador, usuario, etc."]
   descripcion text
   estado bool
   created_at timestamp [default: `now()`]
@@ -8,21 +8,17 @@ Table roles {
 
 Table usuarios {
   id_usuario int [pk, increment]
-  documento int [unique, note: "Número de documento de identidad"]
-  nombres varchar(255)
-  apellido_p varchar(255)
-  apellido_m varchar(255)
-  telefono varchar(15)
-  correo varchar(255) [unique]
-  direccion varchar(255)
+  id_persona int [ref: > personas.id_persona]
   id_rol int [ref: > roles.id_rol]
-  contraseña varchar(255)
+  email varchar(100)
+  contrasena varchar(255)
   created_at timestamp [default: `now()`]
 }
 
 Table personas {
   id_persona int [pk, increment]
-  dni varchar(15) [unique]
+  tipo_documento varchar [note: "DNI, Pasaporte, etc"]
+  documento varchar(15) [unique]
   nombres varchar(100)
   apellido_paterno varchar(100)
   apellido_materno varchar(100)
@@ -50,6 +46,20 @@ Table docentes {
   created_at timestamp [default: `now()`]
 }
 
+Table contratos_docentes {
+  id_contrato int [pk, increment]
+  id_docente int [ref: > docentes.id_docente]
+  id_horario int [ref: > curso_horarios.id_horario]
+  fecha_inicio date
+  fecha_fin date
+  tipo_contrato varchar(50) [note: "Honorarios, CAS, Nombrado, etc."]
+  estado enum('VIGENTE', 'FINALIZADO', 'ANULADO') [default: 'VIGENTE']
+  observacion text
+  created_at timestamp [default: `now()`]
+  updated_at timestamp
+}
+
+
 Table niveles {
   id_nivel int [pk, increment]
   nombre varchar(50) [note: "básico, intermedio, avanzado"]
@@ -65,24 +75,27 @@ Table cursos {
   nombre_curso varchar(100)
   id_programa int [ref: > programas.id_programa]
   nomenclatura varchar(100)
-  id_docente int [ref: > docentes.id_docente] //ultimo
   id_nivel int [ref: > niveles.id_nivel]
   estado enum('ACTIVO', 'INACTIVO', 'CULMINADO') [default: 'ACTIVO']
-
   created_at timestamp [default: `now()`]
 }
 
 Table curso_horarios {
   id_horario int [pk, increment]
   id_curso int [ref: > cursos.id_curso]
+  id_docente int [ref: > docentes.id_docente]
   hora_inicio time
   hora_fin time
   duracion_meses tinyint [note: "Ej: 2 meses = 2"]
-  modalidad varchar(50) 
+  modalidad varchar(50)
   precio_mensual decimal(10,2) [note: "Precio por mes"]
   estado enum('ACTIVO', 'INACTIVO', 'FINALIZADO') [default: 'ACTIVO']
   created_at timestamp [default: `now()`]
+  updated_at timestamp
 }
+
+
+
 
 Table curso_horario_dias {
   id_horario_dia int [pk, increment]
@@ -109,28 +122,21 @@ Table matriculas {
   fecha_registro date
   responsable varchar(100)
 
-  tipo_beca varchar(100) [note: "Ej: BECA INTEGRAL, BECA PARCIAL"]
-  documento_beca varchar(255) [note: "Ej: RESOLUCIÓN N° 067-2024-UNAMAD-R-VRA"]
-  descuento_beca tinyint [note: "Porcentaje: 50, 100"]
-  
-  voucher varchar(100) [note: "Código de pago si aplica"]
+  tipo_beca varchar(100) [note: "Ej: BECA INTEGRAL, BECA PARCIAL", null]
+  documento_beca varchar(255) [note: "Ej: RESOLUCIÓN N° 067-2024-UNAMAD-R-VRA", null]
+  ruta_documento text [note: "Ruta o URL del documento escaneado", null]
+  descuento_beca tinyint [note: "Porcentaje: 50, 100", null]
+
+  voucher varchar(100) [note: "Código del comprobante de pago", null]
+  tipo_entrega enum('fisico', 'virtual') [default: 'fisico']
+  codigo_operacion varchar(100) [note: "Código de operación bancaria", null]
+  entidad_pago varchar(100) [note: "Entidad financiera: BCP, Interbank, etc.", null]
+  cod_pago varchar(100) [note: "Código interno o referencia de pago", null]
+  monto decimal(10,2) [note: "Monto total pagado", null]
+
   observacion text
   created_at timestamp [default: `now()`]
 }
-
-
-Table pagos {
-  id_pago int [pk, increment]
-  id_mensualidad int [ref: > mensualidades.id_mensualidad]
-  fecha_pago date
-  monto decimal(10,2)
-  medio_pago varchar(50)
-  referencia_pago varchar(100)
-  observacion text
-  estado enum('CONFIRMADO', 'PENDIENTE', 'ANULADO') [default: 'CONFIRMADO']
-  created_at timestamp [default: `now()`]
-}
-
 
 Table mensualidades {
   id_mensualidad int [pk, increment]
@@ -139,6 +145,21 @@ Table mensualidades {
   fecha_vencimiento date
   monto decimal(10,2)
   estado enum('PENDIENTE', 'PAGADO', 'VENCIDO') [default: 'PENDIENTE']
+  created_at timestamp [default: `now()`]
+}
+
+Table pagos {
+  id_pago int [pk, increment]
+  id_mensualidad int [ref: > mensualidades.id_mensualidad]
+  fecha_pago date
+  
+  codigo_operacion varchar(100) [note: "Código de operación bancaria", null]
+  entidad_pago varchar(100) [note: "Entidad financiera: BCP, Interbank, etc.", null]
+  cod_pago varchar(100) [note: "Código interno o referencia de pago", null]
+  monto decimal(10,2) [note: "Monto total pagado", null]
+
+  observacion text
+  estado enum('CONFIRMADO', 'PENDIENTE', 'ANULADO') [default: 'CONFIRMADO']
   created_at timestamp [default: `now()`]
 }
 

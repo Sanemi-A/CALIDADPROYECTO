@@ -9,7 +9,7 @@ class Roles extends Model
 {
     use HasFactory;
 
-    // Tabla asociada (opcional si el nombre ya es "roles")
+    // (Opcional, si la tabla se llama "roles" no necesitas esta línea)
     protected $table = 'roles';
 
     // Campos que se pueden llenar masivamente
@@ -18,6 +18,6 @@ class Roles extends Model
     // Relación: un rol puede tener muchos usuarios
     public function users()
     {
-        return $this->hasMany(User::class, 'rol_id');
+        return $this->hasMany(User::class, 'rol_id', 'id');
     }
 }
