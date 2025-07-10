@@ -295,7 +295,7 @@
         <div class="card">
             <div class="card-body">
 
-                <h4 class="card-title">Datos personales</h4>
+                <h4 class="card-title">Estudiantes</h4>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#modal_nuevo_estudiante">Registrar</button>
 
