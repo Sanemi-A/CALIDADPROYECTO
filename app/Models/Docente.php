@@ -15,6 +15,7 @@ class Docente extends Model
         'especialidad',
         'grado_academico',
         'cv_url',
+        'foto',
         'estado',
     ];
 

@@ -16,11 +16,15 @@ return new class extends Migration
             $table->unsignedBigInteger('id_persona');
             $table->string('especialidad', 100);
             $table->string('grado_academico', 100);
-            $table->text('cv_url');
-            $table->boolean('estado')->default(true);
+            $table->text('cv_url')->nullable();
+            $table->string('foto')->nullable();
+            $table->enum('estado', ['ACTIVO', 'INACTIVO', 'INHABILITADO', 'SUSPENDIDO', 'RETIRADO'])->default('ACTIVO');
             $table->timestamps();
 
-            $table->foreign('id_persona')->references('id_persona')->on('personas')->onDelete('cascade');
+            $table->foreign('id_persona')
+                ->references('id_persona')
+                ->on('personas')
+                ->onDelete('cascade');
         });
     }
 

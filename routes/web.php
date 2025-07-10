@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\admin\CursosHorariosController;
+use App\Http\Controllers\admin\CursosController;
 use App\Http\Controllers\admin\EstudiantesController;
 use App\Http\Controllers\admin\PersonasController;
 use App\Http\Controllers\admin\RolesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\admin\DocentesController;
 
 use App\Http\Controllers\UserController;
 
@@ -28,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/personas', [PersonasController::class, 'index'])->name('personas');
 
     Route::get('/estudiantes', [EstudiantesController::class, 'index'])->name('estudiantes');
+    Route::get('/cursos', [CursosController::class, 'index'])->name('cursos');
+    Route::get('/docentes', [DocentesController::class, 'index'])->name('docentes');
+    Route::get('/cursos_horarios', [CursosHorariosController::class, 'index'])->name('cursos_horarios');
 
     Route::controller(RolesController::class)->group(function () {
         Route::get('/roles', 'index')->name('roles');
@@ -58,5 +64,27 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [EstudiantesController::class, 'store'])->name('store');
         Route::put('/{id}', [EstudiantesController::class, 'update'])->name('update');
         Route::delete('/{id}', [EstudiantesController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('cursos')->name('cursos.')->group(function () {
+        Route::post('/', [CursosController::class, 'store'])->name('store');
+        Route::put('/{id}', [CursosController::class, 'update'])->name('update');
+        Route::delete('/{id}', [CursosController::class, 'destroy'])->name('destroy');
+        Route::get('/buscar', [CursosController::class, 'buscarAjax'])->name('buscar');
+    });
+
+
+    Route::prefix('docentes')->name('docentes.')->group(function () {
+        Route::get('/listar', [DocentesController::class, 'listar'])->name('listar'); 
+        Route::post('/', [DocentesController::class, 'store'])->name('store');
+        Route::put('/{id}', [DocentesController::class, 'update'])->name('update');
+        Route::delete('/{id}', [DocentesController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('curso-horarios')->name('curso_horarios.')->group(function () {
+        Route::get('/listar', [CursosHorariosController::class, 'listar'])->name('listar');
+        Route::post('/', [CursosHorariosController::class, 'store'])->name('store');
+        Route::put('/{id}', [CursosHorariosController::class, 'update'])->name('update');
+        Route::delete('/{id}', [CursosHorariosController::class, 'destroy'])->name('destroy');
     });
 });

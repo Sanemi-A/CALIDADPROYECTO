@@ -16,7 +16,7 @@
                             </li>
                             <li class="nav-item mx-2">
                                 <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab"
-                                    href="{{ route('usuarios') }}" role="tab" aria-controls="overview"
+                                    href="{{ route('estudiantes') }}" role="tab" aria-controls="overview"
                                     aria-selected="true">Lista</a>
                             </li>
 

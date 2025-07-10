@@ -14,7 +14,6 @@ class Curso extends Model
         'nombre_curso',
         'id_programa',
         'nomenclatura',
-        'id_docente',
         'id_nivel',
         'estado',
     ];
@@ -28,11 +27,6 @@ class Curso extends Model
     public function programa()
     {
         return $this->belongsTo(Programa::class, 'id_programa');
-    }
-
-    public function docente()
-    {
-        return $this->belongsTo(Docente::class, 'id_docente');
     }
 
     public function nivel()

@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TipoAlumnoSeeder::class,
             CarrerasSeeder::class,
+            NivelesSeeder::class,
+            ProgramasSeeder::class,
         ]);
     }
 }

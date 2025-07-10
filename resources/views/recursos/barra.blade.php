@@ -247,7 +247,7 @@
                         </a>
                         <div class="collapse" id="docentes">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="">Lista</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('docentes') }}">Lista</a></li>
                                 <li class="nav-item"><a class="nav-link" href="">Contratos</a></li>
                             </ul>
                         </div>
@@ -263,9 +263,9 @@
                         </a>
                         <div class="collapse" id="cursos">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="">Lista de
+                                <li class="nav-item"><a class="nav-link" href="{{ route('cursos') }}">Lista de
                                         cursos</a></li>
-                                <li class="nav-item"><a class="nav-link" href="">Horarios</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('cursos_horarios') }}">Horarios</a></li>
                             </ul>
                         </div>
                     </li>
@@ -311,6 +311,9 @@
                 @yield('usuarios')
                 @yield('personas')
                 @yield('estudiantes_lista')
+                @yield('cursos')
+                @yield('docentes')
+                @yield('cursos_horarios')
 
                 <footer class="footer py-3">
                     <div class="d-sm-flex justify-content-between align-items-center px-3">
