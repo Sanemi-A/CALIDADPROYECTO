@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id('id_contrato');
             $table->unsignedBigInteger('id_docente');
             $table->unsignedBigInteger('id_horario');
-
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->string('tipo_contrato', 50)->comment('Honorarios, CAS, Nombrado, etc.');
             $table->enum('estado', ['VIGENTE', 'FINALIZADO', 'ANULADO'])->default('VIGENTE');
             $table->text('observacion')->nullable();
-
             $table->timestamps(); 
 
 

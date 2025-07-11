@@ -153,6 +153,10 @@ class EstudiantesController extends Controller
                 ]);
             }
 
+            // Obtener documento del estudiante
+            $persona = \App\Models\Persona::findOrFail($request->id_persona);
+            $documento = $persona->documento;
+
             $datos = $request->only([
                 'id_persona',
                 'id_tipo_alumno',
@@ -163,7 +167,7 @@ class EstudiantesController extends Controller
             $datos['estado'] = $request->estado ?? 'ACTIVO';
             $datos['estado_financiero'] = $request->estado_financiero ?? 'REGULAR';
             $datos['estado_disciplinario'] = $request->estado_disciplinario ?? 'SIN_SANCION';
-
+            $datos['password'] = $documento;
             if ($request->hasFile('foto')) {
                 $datos['foto'] = $request->file('foto')->store('fotos_estudiantes', 'public');
             } else {

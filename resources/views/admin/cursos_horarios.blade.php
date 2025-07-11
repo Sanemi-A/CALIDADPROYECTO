@@ -62,35 +62,58 @@
                                         </div>
                                     </div>
 
-
+                                    <!-- Fecha inicio / Fecha fin / Aula -->
                                     <div class="row mt-2">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="fecha_inicio">Fecha de inicio</label>
+                                                <input type="date" name="fecha_inicio" id="fecha_inicio"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="fecha_fin">Fecha de fin</label>
+                                                <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="aula">Aula o salón</label>
+                                                <input type="text" name="aula" id="aula" class="form-control"
+                                                    maxlength="100">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hora inicio / Hora fin / Duración -->
+                                    <div class="row mt-2">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="hora_inicio">Hora de inicio</label>
                                                 <input type="time" name="hora_inicio" id="hora_inicio"
                                                     class="form-control" required>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="hora_fin">Hora de fin</label>
-                                                <input type="time" name="hora_fin" id="hora_fin" class="form-control"
-                                                    required>
+                                                <input type="time" name="hora_fin" id="hora_fin"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="duracion_meses">Duración (meses)</label>
+                                                <input type="number" name="duracion_meses" id="duracion_meses"
+                                                    class="form-control" min="1" max="24" required>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <!-- Modalidad / Precio / Estado -->
                                     <div class="row mt-2">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="duracion_meses">Duración (meses)</label>
-                                                <input type="number" name="duracion_meses" id="duracion_meses"
-                                                    class="form-control" min="1" max="12" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="modalidad">Modalidad</label>
                                                 <select name="modalidad" id="modalidad" class="form-select" required>
@@ -100,10 +123,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row mt-2">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="precio_mensual">Precio mensual (S/)</label>
                                                 <input type="number" step="0.01" min="0"
@@ -111,20 +131,20 @@
                                                     required>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="estado">Estado</label>
                                                 <select name="estado" id="estado" class="form-select" required>
                                                     <option value="ACTIVO" selected>ACTIVO</option>
-                                                    <option value="INACTIVO">INACTIVO</option>
-                                                    <option value="FINALIZADO">FINALIZADO</option>
+
                                                     <option value="ESPERA">ESPERA</option>
+
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <!-- Botones -->
                                     <div class="row mt-4">
                                         <div class="col-md-12 text-end">
                                             <button type="submit" class="btn btn-primary me-2">Registrar</button>
@@ -133,65 +153,168 @@
                                         </div>
                                     </div>
                                 </form>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalEditarDias" tabindex="-1" aria-labelledby="editarDiasLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 550px;">
+                <form id="formEditarDias" method="POST" action="{{ route('curso_horarios.actualizar_dias') }}">
+                    @csrf
+                    <input type="hidden" name="id_horario" id="modal_id_horario">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Seleccionar días de clase</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body p-3">
+                            <div class="container-fluid">
+                                <div class="row g-2">
+                                    @foreach (['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'] as $dia)
+                                        <div class="col-6">
+                                            <div
+                                                class="form-check form-switch d-flex align-items-center justify-content-between w-100">
+                                                <label class="form-check-label text-capitalize me-2"
+                                                    for="switch_{{ $dia }}">{{ $dia }}</label>
+                                                <input class="form-check-input ms-auto" type="checkbox"
+                                                    id="switch_{{ $dia }}" name="{{ $dia }}">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
 
-        <div class="modal fade" id="modal_editarcurso" tabindex="-1" role="dialog"
-            aria-labelledby="modalLabelEditarCurso" aria-hidden="true">
+
+
+        <div class="modal fade" id="modal_editarhorario" tabindex="-1" role="dialog"
+            aria-labelledby="modalLabelEditarHorario" aria-hidden="true">
             <div class="modal-dialog modal-lg" style="max-width: 600px;" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabelEditarCurso"><b>Editar Curso</b></h5>
+                        <h5 class="modal-title"><b>Editar Horario</b></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
 
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-body">
-                                <form method="POST" id="formEditarCurso">
+                                <form method="POST" id="formEditarHorario">
                                     @csrf
                                     @method('PUT')
+                                    <input type="hidden" name="id_horario" id="edit_id_horario">
 
-                                    <input type="hidden" name="id" id="editar_id">
-
+                                    <!-- Curso (Solo texto, no se edita) -->
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="editar_nombre_curso">Nombre del Curso</label>
-                                                <input type="text" class="form-control" id="editar_nombre_curso"
-                                                    name="nombre_curso" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="editar_nomenclatura">Nomenclatura</label>
-                                                <input type="text" class="form-control" id="editar_nomenclatura"
-                                                    name="nomenclatura" required>
+                                                <label>Curso</label>
+                                                <input type="text" id="edit_nombre_curso" class="form-control"
+                                                    readonly>
                                             </div>
                                         </div>
                                     </div>
 
-
-
+                                    <!-- Fechas y Aula -->
                                     <div class="row mt-2">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="editar_estado">Estado</label>
-                                                <select class="form-select" id="editar_estado" name="estado" required>
+                                                <label for="edit_fecha_inicio">Fecha de inicio</label>
+                                                <input type="date" name="fecha_inicio" id="edit_fecha_inicio"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_fecha_fin">Fecha de fin</label>
+                                                <input type="date" name="fecha_fin" id="edit_fecha_fin"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_aula">Aula o salón</label>
+                                                <input type="text" name="aula" id="edit_aula" class="form-control"
+                                                    maxlength="100">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Horas y duración -->
+                                    <div class="row mt-2">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_hora_inicio">Hora de inicio</label>
+                                                <input type="time" name="hora_inicio" id="edit_hora_inicio"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_hora_fin">Hora de fin</label>
+                                                <input type="time" name="hora_fin" id="edit_hora_fin"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_duracion_meses">Duración (meses)</label>
+                                                <input type="number" name="duracion_meses" id="edit_duracion_meses"
+                                                    class="form-control" min="1" max="24" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modalidad, Precio, Estado -->
+                                    <div class="row mt-2">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_modalidad">Modalidad</label>
+                                                <select name="modalidad" id="edit_modalidad" class="form-select"
+                                                    required>
+                                                    <option value="PRESENCIAL">PRESENCIAL</option>
+                                                    <option value="VIRTUAL">VIRTUAL</option>
+                                                    <option value="HÍBRIDO">HÍBRIDO</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_precio_mensual">Precio mensual (S/)</label>
+                                                <input type="number" step="0.01" min="0"
+                                                    name="precio_mensual" id="edit_precio_mensual" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="edit_estado">Estado</label>
+                                                <select name="estado" id="edit_estado" class="form-select" required>
                                                     <option value="ACTIVO">ACTIVO</option>
                                                     <option value="INACTIVO">INACTIVO</option>
-                                                    <option value="CULMINADO">CULMINADO</option>
+                                                    <option value="ESPERA">ESPERA</option>
+                                                    <option value="FINALIZADO">FINALIZADO</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <!-- Botones -->
                                     <div class="row mt-4">
                                         <div class="col-md-12 text-end">
                                             <button type="submit" class="btn btn-primary me-2">Actualizar</button>
@@ -200,7 +323,7 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div> <!-- /.card-body -->
                         </div>
                     </div>
                 </div>
@@ -234,16 +357,15 @@
                                         <th>Docente</th>
                                         <th>Horario</th>
                                         <th>Duración</th>
-                                        <th>Modalidad</th>
                                         <th>Precio</th>
+                                        <th class="text-center">Días</th>
+
+
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                             </table>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -278,7 +400,33 @@
                         }
                     },
                     {
-                        data: 'nombre_curso'
+                        data: null,
+                        render: function(data, type, row) {
+                            let nivel = row.nivel ? row.nivel.toUpperCase() : 'SIN NIVEL';
+
+                            let nivelColor = {
+                                'BÁSICO': 'badge badge-opacity-primary',
+                                'INTERMEDIO': 'badge badge-opacity-warning',
+                                'AVANZADO': 'badge badge-opacity-success'
+                            };
+
+                            let claseNivel = nivelColor[nivel] || 'badge badge-opacity-secondary';
+
+                            return `
+                                <div class="position-relative" style="padding-top: 1.2rem;">
+                                    <span class="${claseNivel}" style="
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0.1rem;
+                                        font-size: 0.6rem;
+                                        padding: 0.2em 0.4em;
+                                        line-height: 1;
+                                        z-index: 1;
+                                    ">${nivel}</span>
+                                    <p class="mb-0 fw-semibold" style="font-size: 0.875rem;">${row.nombre_curso}</p>
+                                </div>
+                            `;
+                        }
                     },
                     {
                         data: 'nombre_docente',
@@ -290,24 +438,132 @@
                     {
                         data: null,
                         render: function(data) {
-                            return `${data.hora_inicio} - ${data.hora_fin}`;
+                            let inicio = data.hora_inicio?.slice(0, 5); // solo HH:mm
+                            let fin = data.hora_fin?.slice(0, 5);
+
+                            // Convertir hora_inicio a entero para clasificar
+                            let horaInt = parseInt(data.hora_inicio?.split(':')[0]);
+                            let periodo = 'SIN HORA';
+                            let badgeClass = 'badge badge-opacity-secondary';
+
+                            if (!isNaN(horaInt)) {
+                                if (horaInt < 12) {
+                                    periodo = 'MAÑANA';
+                                    badgeClass = 'badge badge-opacity-info';
+                                } else if (horaInt < 18) {
+                                    periodo = 'TARDE';
+                                    badgeClass = 'badge badge-opacity-warning';
+                                } else {
+                                    periodo = 'NOCHE';
+                                    badgeClass = 'badge badge-opacity-dark';
+                                }
+                            }
+
+                            return `
+                                <div class="position-relative" style="padding-top: 1.2rem;">
+                                    <span class="${badgeClass}" style="
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0.1rem;
+                                        font-size: 0.6rem;
+                                        padding: 0.2em 0.4em;
+                                        line-height: 1;
+                                        z-index: 1;
+                                    ">${periodo}</span>
+                                    <p class="mb-0 fw-semibold" style="font-size: 0.875rem;">${inicio} - ${fin}</p>
+                                </div>
+                            `;
                         }
                     },
+
                     {
-                        data: 'duracion_meses',
-                        render: function(meses) {
-                            return `${meses} mes${meses > 1 ? 'es' : ''}`;
+                        data: null,
+                        render: function(row) {
+                            let modalidad = row.modalidad ?? 'SIN MODALIDAD';
+                            let meses = row.duracion_meses;
+                            let duracionTexto = `${meses} mes${meses > 1 ? 'es' : ''}`;
+
+                            let modalidadColor = {
+                                'PRESENCIAL': 'badge badge-opacity-success',
+                                'VIRTUAL': 'badge badge-opacity-primary',
+                                'HÍBRIDO': 'badge badge-opacity-warning'
+                            };
+
+                            let claseBadge = modalidadColor[modalidad.toUpperCase()] ||
+                                'badge badge-opacity-secondary';
+
+                            return `
+                                <div class="position-relative" style="padding-top: 1.2rem;">
+                                    <span class="${claseBadge}" style="
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0.1rem;
+                                        font-size: 0.6rem;
+                                        padding: 0.2em 0.4em;
+                                        line-height: 1;
+                                        z-index: 1;
+                                    ">${modalidad.toUpperCase()}</span>
+                                    <p class="mb-0 fw-semibold" style="font-size: 0.875rem;">${duracionTexto}</p>
+                                </div>
+                            `;
                         }
                     },
-                    {
-                        data: 'modalidad'
-                    },
+
                     {
                         data: 'precio_mensual',
                         render: function(precio) {
                             return `S/ ${parseFloat(precio).toFixed(2)}`;
                         }
                     },
+                    {
+                        data: 'dias',
+                        render: function(dias, type, row) {
+                            let colores = {
+                                'Lun': 'badge-opacity-info',
+                                'Mar': 'badge-opacity-info',
+                                'Mié': 'badge-opacity-info',
+                                'Jue': 'badge-opacity-info',
+                                'Vie': 'badge-opacity-info',
+                                'Sáb': 'badge-opacity-primary',
+                                'Dom': 'badge-opacity-primary',
+                            };
+
+                            let badges = dias
+                                .split(', ')
+                                .map(d => `
+                                    <span class="badge ${colores[d] || 'badge-opacity-secondary'} me-1 mb-1" style="
+                                        font-size: 0.6rem;
+                                        padding: 0.2em 0.4em;
+                                        line-height: 1;
+                                    ">${d}</span>
+                                `).join('');
+
+                            return `
+                                <div class="d-flex flex-column align-items-center" style="min-height: 3.5rem;">
+                                    <div class="mb-1 text-center">
+                                        ${badges}
+                                    </div>
+                                    <button class="btn btn-light btn-xs border btn-editar-dias"
+                                        style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"
+                                        title="Editar días"
+                                        data-id="${row.id_horario}"
+                                        data-lunes="${row.lunes}"
+                                        data-martes="${row.martes}"
+                                        data-miercoles="${row.miercoles}"
+                                        data-jueves="${row.jueves}"
+                                        data-viernes="${row.viernes}"
+                                        data-sabado="${row.sabado}"
+                                        data-domingo="${row.domingo}">
+                                        <i class="mdi mdi-calendar-edit"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    },
+
+
+
+
                     {
                         data: 'estado',
                         render: function(estado) {
@@ -327,18 +583,31 @@
                         searchable: false,
                         render: function(id, type, row) {
                             return `
-                            <button class="btn btn-sm btn-primary btn-editar-horario" data-id="${id}" title="Editar">
+                            <button class="btn btn-primary shadow btn-xs sharp me-1 btn-editar-horario"
+                                data-id="${row.id_horario}"
+                                data-curso="${row.nombre_curso}"
+                                data-fecha_inicio="${row.fecha_inicio || ''}"
+                                data-fecha_fin="${row.fecha_fin || ''}"
+                                data-aula="${row.aula || ''}"
+                                data-hora_inicio="${row.hora_inicio}"
+                                data-hora_fin="${row.hora_fin}"
+                                data-duracion="${row.duracion_meses}"
+                                data-modalidad="${row.modalidad}"
+                                data-precio="${row.precio_mensual}"
+                                data-estado="${row.estado}"
+                                title="Editar">
                                 <i class="mdi mdi-pencil"></i>
                             </button>
                             <form method="POST" action="/curso-horarios/${id}" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este horario?')" title="Eliminar">
+                                <button class="btn btn-danger shadow btn-xs sharp me-1"
+                                    onclick="return confirm('¿Eliminar este horario?')" title="Eliminar">
                                     <i class="mdi mdi-delete"></i>
                                 </button>
-                            </form>
-                        `;
+                            </form>`;
                         }
+
                     }
                 ],
                 language: {
@@ -390,32 +659,46 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const botonesEditar = document.querySelectorAll('.btn-editar-curso');
+        $(document).on('click', '.btn-editar-dias', function() {
+            const id = $(this).data('id');
+            $('#modal_id_horario').val(id);
 
-            botonesEditar.forEach(boton => {
-                boton.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    const nombre = this.dataset.nombre;
-                    const nomenclatura = this.dataset.nomenclatura;
-                    const programa = this.dataset.programa;
-                    const nivel = this.dataset.nivel;
-                    const estado = this.dataset.estado;
-
-                    document.getElementById('editar_id').value = id;
-                    document.getElementById('editar_nombre_curso').value = nombre;
-                    document.getElementById('editar_nomenclatura').value = nomenclatura;
-                    document.getElementById('editar_id_programa').value = programa;
-                    document.getElementById('editar_id_nivel').value = nivel;
-                    document.getElementById('editar_estado').value = estado;
-
-                    // Cambiar acción del formulario
-                    const form = document.getElementById('formEditarCurso');
-                    form.action = `/cursos/${id}`;
-                });
+            // Resetear switches
+            ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].forEach(dia => {
+                const checked = $(this).data(dia) == 1;
+                $(`#switch_${dia}`).prop('checked', checked);
             });
+
+            $('#modalEditarDias').modal('show');
         });
     </script>
+    <script>
+        $(document).on('click', '.btn-editar-horario', function() {
+            const button = $(this);
+            const id = button.data('id');
+
+            // Asegurar valores seguros con fallback en caso de undefined
+            $('#edit_id_horario').val(id);
+            $('#edit_nombre_curso').val(button.data('curso') || '');
+            $('#edit_fecha_inicio').val(button.data('fecha_inicio') || '');
+            $('#edit_fecha_fin').val(button.data('fecha_fin') || '');
+            $('#edit_aula').val(button.data('aula') || '');
+            $('#edit_hora_inicio').val(button.data('hora_inicio') || '');
+            $('#edit_hora_fin').val(button.data('hora_fin') || '');
+            $('#edit_duracion_meses').val(button.data('duracion') || '');
+            $('#edit_modalidad').val(button.data('modalidad') || 'PRESENCIAL');
+            $('#edit_precio_mensual').val(button.data('precio') || '');
+            $('#edit_estado').val(button.data('estado') || 'ACTIVO');
+
+            // Actualizar la URL de acción del formulario
+            $('#formEditarHorario').attr('action', `/curso-horarios/${id}`);
+
+            // Mostrar el modal
+            $('#modal_editarhorario').modal('show');
+        });
+    </script>
+
+
 
     <script>
         $(document).ready(function() {

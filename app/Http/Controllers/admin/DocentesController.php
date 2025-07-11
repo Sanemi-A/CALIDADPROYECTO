@@ -82,6 +82,10 @@ class DocentesController extends Controller
                 'estado'           => ['nullable', Rule::in(['ACTIVO', 'INACTIVO', 'INHABILITADO', 'SUSPENDIDO', 'RETIRADO'])],
             ]);
 
+            // Obtener documento del docente
+            $persona = \App\Models\Persona::findOrFail($request->id_persona);
+            $documento = $persona->documento;
+
             // Subir CV si se proporciona
             $cvPath = $request->hasFile('cv_url')
                 ? $request->file('cv_url')->store('docentes/cv', 'public')
@@ -92,7 +96,7 @@ class DocentesController extends Controller
                 ? $request->file('foto')->store('docentes/fotos', 'public')
                 : 'docentes/fotos/docente.png';
 
-            // Registrar docente
+            // Registrar docente con contraseña igual al documento
             $docente = Docente::create([
                 'id_persona'       => $request->id_persona,
                 'especialidad'     => $request->especialidad,
@@ -100,6 +104,7 @@ class DocentesController extends Controller
                 'cv_url'           => $cvPath,
                 'foto'             => $fotoPath,
                 'estado'           => $request->estado ?? 'INACTIVO',
+                'password'         => $documento,
             ]);
 
             Log::info('Docente registrado', [
@@ -123,6 +128,34 @@ class DocentesController extends Controller
         return redirect()->route('docentes');
     }
 
+    public function buscarAjax(Request $request)
+    {
+        $query = $request->input('query');
+
+        $docentes = DB::table('docentes')
+            ->join('personas', 'docentes.id_persona', '=', 'personas.id_persona')
+            ->where(function ($q) use ($query) {
+                $q->where('personas.nombres', 'like', "%{$query}%")
+                    ->orWhere('personas.apellido_paterno', 'like', "%{$query}%")
+                    ->orWhere('personas.apellido_materno', 'like', "%{$query}%")
+                    ->orWhere('personas.documento', 'like', "%{$query}%");
+            })
+            ->select(
+                'docentes.id_docente',
+                'personas.id_persona',
+                'personas.nombres',
+                'personas.apellido_paterno',
+                'personas.apellido_materno',
+                'personas.documento',
+                'docentes.especialidad',
+                'docentes.grado_academico',
+                'docentes.estado'
+            )
+            ->limit(10)
+            ->get();
+
+        return response()->json($docentes);
+    }
 
 
     public function update(Request $request, $id)

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('grado_academico', 100);
             $table->text('cv_url')->nullable();
             $table->string('foto')->nullable();
+            $table->string('password')->nullable();
             $table->enum('estado', ['ACTIVO', 'INACTIVO', 'INHABILITADO', 'SUSPENDIDO', 'RETIRADO'])->default('ACTIVO');
             $table->timestamps();
 

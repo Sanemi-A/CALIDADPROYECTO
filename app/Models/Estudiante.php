@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Estudiante extends Model
 {
@@ -19,13 +20,25 @@ class Estudiante extends Model
         'estado',
         'estado_financiero',
         'estado_disciplinario',
+        'password', // agregado
     ];
 
+    protected $hidden = [
+        'password', // ocultar en serializaciones
+    ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    // Mutator para encriptar automáticamente
+    public function setPasswordAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['password'] = Hash::make($value);
+        }
+    }
 
     // Relaciones
     public function persona()

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Docente extends Model
 {
@@ -17,13 +18,26 @@ class Docente extends Model
         'cv_url',
         'foto',
         'estado',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $casts = [
-        'estado' => 'boolean',
+        // estado es enum, no booleano
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    // Encriptar automáticamente la contraseña al guardar
+    public function setPasswordAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['password'] = Hash::make($value);
+        }
+    }
 
     // Relación con Persona
     public function persona()

@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('matriculas', function (Blueprint $table) {
             $table->id('id_matricula');
 
-            // Clave foránea a estudiantes.id_estudiante
+            // Relaciones
             $table->unsignedBigInteger('id_estudiante');
-            $table->foreign('id_estudiante')->references('id_estudiante')->on('estudiantes')->onDelete('cascade');
-
-            // Clave foránea a curso_horarios.id_horario
             $table->unsignedBigInteger('id_horario');
-            $table->foreign('id_horario')->references('id_horario')->on('curso_horarios')->onDelete('cascade');
 
-            $table->date('fecha_registro');
+            // Datos generales
+            $table->date('fecha_registro')->comment('Fecha efectiva de la matrícula');
             $table->string('responsable', 100);
 
             // Beca
@@ -31,16 +28,35 @@ return new class extends Migration
             $table->text('ruta_documento')->nullable()->comment('Ruta o URL del documento escaneado');
             $table->tinyInteger('descuento_beca')->nullable()->comment('Porcentaje: 50, 100');
 
-            // Pago
+            // Pago de matrícula
             $table->string('voucher', 100)->nullable()->comment('Código del comprobante de pago');
             $table->enum('tipo_entrega', ['fisico', 'virtual'])->default('fisico');
             $table->string('codigo_operacion', 100)->nullable()->comment('Código de operación bancaria');
             $table->string('entidad_pago', 100)->nullable()->comment('Ej: BCP, Interbank');
             $table->string('cod_pago', 100)->nullable()->comment('Código interno o referencia');
             $table->decimal('monto', 10, 2)->nullable()->comment('Monto total pagado');
+            $table->string('ruta_voucher', 255)->nullable()->comment('Ruta o URL del archivo o imagen del voucher');
 
+            // Estado y control
             $table->text('observacion')->nullable();
+            $table->enum('estado', ['VIGENTE', 'CANCELADA', 'RETIRADA', 'FINALIZADA'])->default('VIGENTE');
+            $table->boolean('validado')->default(false);
+            $table->boolean('pago_completo')->default(false)->comment('Pagó la matrícula y todas las cuotas');
+            $table->boolean('exonerado')->default(false)->comment('No paga nada por beca 100%');
+
+            $table->unsignedBigInteger('id_usuario_registro')->nullable();
+
+            // Timestamps
             $table->timestamps();
+            $table->softDeletes();
+
+            // Relaciones
+            $table->foreign('id_estudiante')->references('id_estudiante')->on('estudiantes')->onDelete('cascade');
+            $table->foreign('id_horario')->references('id_horario')->on('curso_horarios')->onDelete('cascade');
+            $table->foreign('id_usuario_registro')->references('id')->on('users')->onDelete('set null');
+
+            // Índices
+            $table->index(['id_estudiante', 'id_horario', 'fecha_registro', 'estado']);
         });
     }
 

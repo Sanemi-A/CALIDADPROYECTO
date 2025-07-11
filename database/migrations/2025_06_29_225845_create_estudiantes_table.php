@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('estado', ['ACTIVO', 'INACTIVO'])->default('ACTIVO');
             $table->enum('estado_financiero', ['REGULAR', 'DEUDOR'])->default('REGULAR');
             $table->enum('estado_disciplinario', ['SIN_SANCION', 'SANCIONADO'])->default('SIN_SANCION');
+            $table->string('password')->nullable();
             $table->timestamps();
 
             $table->foreign('id_persona')->references('id_persona')->on('personas')->onDelete('cascade');

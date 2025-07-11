@@ -14,12 +14,25 @@ return new class extends Migration
         Schema::create('curso_horarios', function (Blueprint $table) {
             $table->id('id_horario');
             $table->unsignedBigInteger('id_curso');
-            $table->unsignedBigInteger('id_docente')->nullable(); 
+            $table->unsignedBigInteger('id_docente')->nullable();
+            $table->string('aula', 100)->nullable();
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable();
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->tinyInteger('duracion_meses')->unsigned()->comment('Ej: 2 meses = 2');
+
+            // Días de la semana (booleanos)
+            $table->boolean('lunes')->default(false);
+            $table->boolean('martes')->default(false);
+            $table->boolean('miercoles')->default(false);
+            $table->boolean('jueves')->default(false);
+            $table->boolean('viernes')->default(false);
+            $table->boolean('sabado')->default(false);
+            $table->boolean('domingo')->default(false);
+
+            $table->tinyInteger('duracion_meses')->unsigned();
             $table->string('modalidad', 50);
-            $table->decimal('precio_mensual', 10, 2)->comment('Precio por mes');
+            $table->decimal('precio_mensual', 10, 2);
             $table->enum('estado', ['ACTIVO', 'INACTIVO', 'FINALIZADO', 'ESPERA'])->default('ACTIVO');
             $table->timestamps();
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\ContratoDocenteController;
 use App\Http\Controllers\admin\CursosHorariosController;
 use App\Http\Controllers\admin\CursosController;
 use App\Http\Controllers\admin\EstudiantesController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\admin\RolesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\admin\DocentesController;
-
+use App\Http\Controllers\admin\MatriculasController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -31,9 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/personas', [PersonasController::class, 'index'])->name('personas');
 
     Route::get('/estudiantes', [EstudiantesController::class, 'index'])->name('estudiantes');
+
     Route::get('/cursos', [CursosController::class, 'index'])->name('cursos');
+
     Route::get('/docentes', [DocentesController::class, 'index'])->name('docentes');
+
     Route::get('/cursos_horarios', [CursosHorariosController::class, 'index'])->name('cursos_horarios');
+
+    Route::get('/contratos_docentes', [ContratoDocenteController::class, 'index'])->name('contratos_docentes');
+
+    Route::get('/matriculas', [MatriculasController::class, 'index'])->name('matriculas');
 
     Route::controller(RolesController::class)->group(function () {
         Route::get('/roles', 'index')->name('roles');
@@ -73,18 +81,32 @@ Route::middleware('auth')->group(function () {
         Route::get('/buscar', [CursosController::class, 'buscarAjax'])->name('buscar');
     });
 
-
     Route::prefix('docentes')->name('docentes.')->group(function () {
-        Route::get('/listar', [DocentesController::class, 'listar'])->name('listar'); 
+        Route::get('/listar', [DocentesController::class, 'listar'])->name('listar');
+        Route::get('/buscar', [DocentesController::class, 'buscarAjax'])->name('buscar');
         Route::post('/', [DocentesController::class, 'store'])->name('store');
         Route::put('/{id}', [DocentesController::class, 'update'])->name('update');
         Route::delete('/{id}', [DocentesController::class, 'destroy'])->name('destroy');
     });
-
+    //fataaaaaaaaaaaaaaaaaaaaaa asignar los dias
     Route::prefix('curso-horarios')->name('curso_horarios.')->group(function () {
         Route::get('/listar', [CursosHorariosController::class, 'listar'])->name('listar');
         Route::post('/', [CursosHorariosController::class, 'store'])->name('store');
         Route::put('/{id}', [CursosHorariosController::class, 'update'])->name('update');
         Route::delete('/{id}', [CursosHorariosController::class, 'destroy'])->name('destroy');
+        Route::post('/actualizar-dias', [CursosHorariosController::class, 'actualizarDias'])->name('actualizar_dias');
+    });
+
+    Route::prefix('contratos-docentes')->name('contratos_docentes.')->group(function () {
+        Route::get('/listar', [ContratoDocenteController::class, 'listar'])->name('listar');
+        Route::post('/', [ContratoDocenteController::class, 'store'])->name('store');
+        Route::put('/{id}', [ContratoDocenteController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ContratoDocenteController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('matriculas')->name('matriculas.')->group(function () {
+        Route::get('/listar', [MatriculasController::class, 'listar'])->name('listar'); 
+        Route::post('/', [MatriculasController::class, 'store'])->name('store'); 
+        Route::delete('/{id}', [MatriculasController::class, 'destroy'])->name('destroy');  
     });
 });
