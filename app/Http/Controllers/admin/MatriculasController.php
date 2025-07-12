@@ -113,6 +113,14 @@ class MatriculasController extends Controller
             });
         }
 
+        // Filtro por fecha
+        if ($request->filled('fecha_inicio') && $request->filled('fecha_fin')) {
+            $query->whereBetween('matriculas.fecha_registro', [
+                $request->fecha_inicio . ' 00:00:00',
+                $request->fecha_fin . ' 23:59:59'
+            ]);
+        }
+
         // Total con filtro
         $recordsFiltered = $query->count();
 

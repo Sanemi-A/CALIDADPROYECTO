@@ -537,6 +537,41 @@
 
 
                 <br><br>
+                <div class="row g-2 align-items-end mb-4">
+                    <div class="col-md-4">
+                        <label for="filtro_fecha_inicio" class="form-label fw-semibold">Fecha desde</label>
+                        <div class="input-group date datepicker">
+                            <span class="input-group-text">
+                                <i class="mdi mdi-calendar-start"></i>
+                            </span>
+                            <input type="text" id="filtro_fecha_inicio" class="form-control"
+                                placeholder="Selecciona fecha">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="filtro_fecha_fin" class="form-label fw-semibold">Fecha hasta</label>
+                        <div class="input-group date datepicker">
+                            <span class="input-group-text">
+                                <i class="mdi mdi-calendar-end"></i>
+                            </span>
+                            <input type="text" id="filtro_fecha_fin" class="form-control"
+                                placeholder="Selecciona fecha">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 d-flex gap-2">
+                        <button id="btn_filtrar_fechas" class="btn btn-outline-primary w-100">
+                            <i class="mdi mdi-filter-variant"></i> Filtrar
+                        </button>
+                        <button id="btn_reset_fechas" class="btn btn-outline-secondary w-100">
+                            <i class="mdi mdi-backup-restore"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+
+
+
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
@@ -548,7 +583,7 @@
                                         <th>Curso</th>
                                         <th>Fecha Matrícula</th>
                                         <th>Estado</th>
-                                        <th>Respnsable</th>
+                                        <th>Responsable</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -574,7 +609,12 @@
                 ajax: {
                     url: "{{ route('matriculas.listar') }}",
                     type: "GET",
+                    data: function(d) {
+                        d.fecha_inicio = $('#filtro_fecha_inicio').val();
+                        d.fecha_fin = $('#filtro_fecha_fin').val();
+                    }
                 },
+
                 order: [
                     [0, 'desc']
                 ],
@@ -646,9 +686,18 @@
                     {
                         data: 'fecha_registro',
                         render: function(fecha) {
-                            return `<small>${fecha}</small>`;
+                            return `
+                                <span class="badge bg-light text-dark border" style="
+                                    font-size: 0.75rem;
+                                    padding: 0.4em 0.6em;
+                                    border-radius: 0.375rem;
+                                ">
+                                    <i class="mdi mdi-calendar-month me-1"></i> ${fecha}
+                                </span>
+                            `;
                         }
                     },
+
                     {
                         data: 'estado',
                         render: function(estado) {
@@ -665,11 +714,16 @@
                     {
                         data: 'responsable',
                         render: function(responsable) {
-                            return responsable ?
-                                `<span class="badge bg-info text-dark">${responsable}</span>` :
-                                `<span class="badge bg-secondary">No registrado</span>`;
+                            return responsable
+                                ? `<p class="mb-0 text-capitalize fw-semibold text-dark" style="font-size: 0.85rem;">
+                                        <i class="mdi mdi-account-circle-outline me-1 text-info"></i>${responsable}
+                                </p>`
+                                : `<p class="mb-0 text-muted fst-italic" style="font-size: 0.85rem;">
+                                        <i class="mdi mdi-alert-circle-outline me-1 text-secondary"></i>No registrado
+                                </p>`;
                         }
                     },
+
 
                     {
                         data: 'id_matricula',
@@ -774,6 +828,16 @@
                 },
                 dom: '<"d-flex justify-content-between align-items-center"<"left-section"l><"right-section"f>>rtip'
             });
+            $('#btn_filtrar_fechas').on('click', function() {
+                table.ajax.reload();
+            });
+
+            $('#btn_reset_fechas').on('click', function() {
+                $('#filtro_fecha_inicio').val('');
+                $('#filtro_fecha_fin').val('');
+                $('#tablaMatriculas').DataTable().ajax.reload();
+            });
+
 
             console.log("✅ Tabla de matrículas inicializada");
         });
@@ -1098,10 +1162,26 @@
         });
     </script>
 
+    </script>
 
 
+    <script>
+        $(document).ready(function() {
+            const opcionesDatepicker = {
+                format: 'yyyy-mm-dd',
+                language: 'es',
+                autoclose: true,
+                todayHighlight: true,
+                todayBtn: 'linked',
+                clearBtn: true,
+                orientation: 'bottom auto',
+                startView: 0,
+                minViewMode: 0
+            };
 
-
+            $('#filtro_fecha_inicio, #filtro_fecha_fin').datepicker(opcionesDatepicker);
+        });
+    </script>
 
 
 

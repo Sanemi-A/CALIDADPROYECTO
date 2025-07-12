@@ -435,7 +435,7 @@
                                 '<span class="text-muted">Sin asignar</span>';
                         }
                     },
-                    {
+                   {
                         data: null,
                         render: function(data) {
                             let inicio = data.hora_inicio?.slice(0, 5); // solo HH:mm
@@ -445,6 +445,7 @@
                             let horaInt = parseInt(data.hora_inicio?.split(':')[0]);
                             let periodo = 'SIN HORA';
                             let badgeClass = 'badge badge-opacity-secondary';
+                            let textColor = 'color:inherit;'; // por defecto
 
                             if (!isNaN(horaInt)) {
                                 if (horaInt < 12) {
@@ -456,6 +457,7 @@
                                 } else {
                                     periodo = 'NOCHE';
                                     badgeClass = 'badge badge-opacity-dark';
+                                    textColor = 'color: white;'; // forzar blanco en noche
                                 }
                             }
 
@@ -469,12 +471,14 @@
                                         padding: 0.2em 0.4em;
                                         line-height: 1;
                                         z-index: 1;
+                                        ${textColor}
                                     ">${periodo}</span>
                                     <p class="mb-0 fw-semibold" style="font-size: 0.875rem;">${inicio} - ${fin}</p>
                                 </div>
                             `;
                         }
                     },
+
 
                     {
                         data: null,

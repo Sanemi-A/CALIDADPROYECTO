@@ -87,11 +87,11 @@
                     </button>
                 </div>
                 <div>
-                    <a class="navbar-brand brand-logo" href="index.html">
+                    <a class="navbar-brand brand-logo" href="{{ url('/inicio') }}">
                         <img src="{{ asset('storage/sistema/CEINFO_LOGO.png') }}" alt="logo" />
 
                     </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
+                    <a class="navbar-brand brand-logo-mini" href="{{ url('/inicio') }}">
 
                     </a>
                 </div>
@@ -114,70 +114,31 @@
 
                 <ul class="navbar-nav ms-auto">
 
-
-                    <li class="nav-item d-none d-lg-block">
-                        <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
-                            <span class="input-group-addon input-group-prepend border-right">
-                                <span class="icon-calendar input-group-text calendar-icon"></span>
-                            </span>
-                            <input type="text" class="form-control">
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <form class="search-form" action="#">
-                            <i class="icon-search"></i>
-                            <input type="search" class="form-control" placeholder="Search Here" title="Search here">
-                        </form>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator" id="notificationDropdown" href="#"
-                            data-bs-toggle="dropdown">
-                            <i class="icon-bell"></i>
-                            <span class="count"></span>
+                    <li class="nav-item dropdown d-lg-flex align-items-center user-dropdown">
+                        <a class="nav-link d-flex align-items-center" id="UserDropdown" href="#"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img class="img-xs rounded-circle me-2" src="{{ asset('storage/' . $user->foto) }}"
+                                alt="Profile image">
+                            <span class="d-none d-lg-inline fw-semibold text-dark">{{ $user->nombres }}</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
-                            aria-labelledby="notificationDropdown">
-                            <a class="dropdown-item py-3 border-bottom">
-                                <p class="mb-0 fw-medium float-start">Tienes 2 notificaciones</p>
-                                <span class="badge badge-pill badge-primary float-end">Ver todos</span>
-                            </a>
-                            <a class="dropdown-item preview-item py-3">
-                                <div class="preview-thumbnail">
-                                    <i class="mdi mdi-lock-outline m-auto text-primary"></i>
-                                </div>
-                                <div class="preview-item-content">
-                                    <h6 class="preview-subject fw-normal text-dark mb-1">2 estudiantes deben etc</h6>
-                                    <p class="fw-light small-text mb-0"> prueba </p>
-                                </div>
-                            </a>
-
-                        </div>
-                    </li>
-
-
-                    <li class="nav-item dropdown  d-lg-block user-dropdown">
-                        <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img class="img-xs rounded-circle" src="{{ asset('storage/' . $user->foto) }}"
-                                alt="Profile image"> </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center">
-                                <img class="img-md rounded-circle" height="60" width="60"
+                                <img class="img-md rounded-circle mb-2" height="60" width="60"
                                     src="{{ asset('storage/' . $user->foto) }}" alt="Profile image">
-                                <p class="mb-1 mt-3 fw-semibold">{{ $user->nombres }} </p>
+                                <p class="mb-1 mt-3 fw-semibold">{{ $user->nombres }}</p>
                                 <p class="fw-light text-muted mb-0">{{ $user->role->nombre }}</p>
                             </div>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> Perfil
+                            <a class="dropdown-item">
+                                <i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> Perfil
                             </a>
-
                             <a href="#" id="logout-link" class="dropdown-item">
-                                <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Cerrar sesión
+                                <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i> Cerrar sesión
                             </a>
-
                         </div>
                     </li>
+
                 </ul>
+
                 <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
                     data-bs-toggle="offcanvas">
                     <span class="mdi mdi-menu"></span>
@@ -231,7 +192,8 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('estudiantes') }}">Lista</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('matriculas') }}">Matrículas</a></li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('matriculas') }}">Matrículas</a></li>
                                 <li class="nav-item"><a class="nav-link" href="">Mensualidades</a></li>
                             </ul>
                         </div>
@@ -247,8 +209,10 @@
                         </a>
                         <div class="collapse" id="docentes">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{ route('docentes') }}">Lista</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('contratos_docentes') }}">Contratos</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('docentes') }}">Lista</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('contratos_docentes') }}">Contratos</a></li>
                             </ul>
                         </div>
                     </li>
@@ -265,7 +229,8 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('cursos') }}">Lista de
                                         cursos</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('cursos_horarios') }}">Horarios</a></li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('cursos_horarios') }}">Horarios</a></li>
                             </ul>
                         </div>
                     </li>
@@ -281,9 +246,10 @@
                         </a>
                         <div class="collapse" id="configuracion">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="">Carreras</a></li>
-                                <li class="nav-item"><a class="nav-link" href="">Niveles</a></li>
-                                <li class="nav-item"><a class="nav-link" href="">Programas</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('carreras') }}">Carreras</a>
+                                </li>
+                                {{-- <li class="nav-item"><a class="nav-link" href="">Niveles</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Programas</a></li> --}}
                             </ul>
                         </div>
                     </li>
@@ -316,6 +282,7 @@
                 @yield('cursos_horarios')
                 @yield('contratos_docentes')
                 @yield('matriculas')
+                @yield('carreras')
 
                 <footer class="footer py-3">
                     <div class="d-sm-flex justify-content-between align-items-center px-3">
@@ -337,6 +304,7 @@
 
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/chart.js/chart.umd.js') }}"></script>
     <script src="{{ asset('assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/dropify/dropify.min.js') }}"></script>

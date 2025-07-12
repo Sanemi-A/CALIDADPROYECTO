@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CarrerasController;
 use App\Http\Controllers\admin\ContratoDocenteController;
 use App\Http\Controllers\admin\CursosHorariosController;
 use App\Http\Controllers\admin\CursosController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\admin\DocentesController;
 use App\Http\Controllers\admin\MatriculasController;
 use App\Http\Controllers\UserController;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -43,6 +45,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/matriculas', [MatriculasController::class, 'index'])->name('matriculas');
 
+    Route::get('/carreras', [CarrerasController::class, 'index'])->name('carreras');
+
     Route::controller(RolesController::class)->group(function () {
         Route::get('/roles', 'index')->name('roles');
         Route::post('/roles', 'store')->name('roles.store');
@@ -56,6 +60,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', [UserController::class, 'update'])->name('update');
         Route::put('/{id}/password', [UserController::class, 'updatePassword'])->name('updatePassword');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('carreras')->name('carreras.')->group(function () {
+        Route::post('/', [CarrerasController::class, 'store'])->name('store');
+        Route::put('/{id}', [CarrerasController::class, 'update'])->name('update');
+        Route::delete('/{id}', [CarrerasController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('personas')->name('personas.')->group(function () {
@@ -105,10 +115,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('matriculas')->name('matriculas.')->group(function () {
-        Route::get('/listar', [MatriculasController::class, 'listar'])->name('listar'); 
-        Route::post('/', [MatriculasController::class, 'store'])->name('store'); 
+        Route::get('/listar', [MatriculasController::class, 'listar'])->name('listar');
+        Route::post('/', [MatriculasController::class, 'store'])->name('store');
         Route::put('/{id}', [MatriculasController::class, 'update'])->name('update');
 
-        Route::delete('/{id}', [MatriculasController::class, 'destroy'])->name('destroy');  
+        Route::delete('/{id}', [MatriculasController::class, 'destroy'])->name('destroy');
     });
 });
