@@ -107,6 +107,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('matriculas')->name('matriculas.')->group(function () {
         Route::get('/listar', [MatriculasController::class, 'listar'])->name('listar'); 
         Route::post('/', [MatriculasController::class, 'store'])->name('store'); 
+        Route::put('/{id}', [MatriculasController::class, 'update'])->name('update');
+
         Route::delete('/{id}', [MatriculasController::class, 'destroy'])->name('destroy');  
     });
 });

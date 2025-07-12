@@ -20,7 +20,6 @@ return new class extends Migration
 
             // Datos generales
             $table->date('fecha_registro')->comment('Fecha efectiva de la matrícula');
-            $table->string('responsable', 100);
 
             // Beca
             $table->string('tipo_beca', 100)->nullable()->comment('Ej: BECA INTEGRAL, BECA PARCIAL');
@@ -29,13 +28,14 @@ return new class extends Migration
             $table->tinyInteger('descuento_beca')->nullable()->comment('Porcentaje: 50, 100');
 
             // Pago de matrícula
-            $table->string('voucher', 100)->nullable()->comment('Código del comprobante de pago');
             $table->enum('tipo_entrega', ['fisico', 'virtual'])->default('fisico');
             $table->string('codigo_operacion', 100)->nullable()->comment('Código de operación bancaria');
             $table->string('entidad_pago', 100)->nullable()->comment('Ej: BCP, Interbank');
             $table->string('cod_pago', 100)->nullable()->comment('Código interno o referencia');
             $table->decimal('monto', 10, 2)->nullable()->comment('Monto total pagado');
             $table->string('ruta_voucher', 255)->nullable()->comment('Ruta o URL del archivo o imagen del voucher');
+            $table->string('ruta_voucher_mensualidades', 255)->nullable()->comment('Ruta o URL del voucher de pago completo');
+
 
             // Estado y control
             $table->text('observacion')->nullable();

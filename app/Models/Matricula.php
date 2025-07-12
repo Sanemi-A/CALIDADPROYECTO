@@ -17,20 +17,19 @@ class Matricula extends Model
         'id_estudiante',
         'id_horario',
         'fecha_registro',
-        'responsable',
 
         'tipo_beca',
         'documento_beca',
         'ruta_documento',
         'descuento_beca',
 
-        'voucher',
         'tipo_entrega',
         'codigo_operacion',
         'entidad_pago',
         'cod_pago',
         'monto',
         'ruta_voucher',
+        'ruta_voucher_mensualidades',
 
         'observacion',
         'estado',
@@ -66,5 +65,11 @@ class Matricula extends Model
     public function usuarioRegistro()
     {
         return $this->belongsTo(User::class, 'id_usuario_registro');
+    }
+
+    // Opcional: acceso directo a la persona del usuario que registró
+    public function personaRegistro()
+    {
+        return $this->usuarioRegistro?->persona;
     }
 }

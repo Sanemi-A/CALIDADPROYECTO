@@ -135,9 +135,9 @@
                                             <div class="form-group">
                                                 <label for="estado">Estado</label>
                                                 <select name="estado" id="estado" class="form-select" required>
-                                                    <option value="ACTIVO" selected>ACTIVO</option>
+                                                    <option value="ESPERA" selected>ESPERA</option>
 
-                                                    <option value="ESPERA">ESPERA</option>
+                                                    <option value="ACTIVO">ACTIVO</option>
 
                                                 </select>
                                             </div>
