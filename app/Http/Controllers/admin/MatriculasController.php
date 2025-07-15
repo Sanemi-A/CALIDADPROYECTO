@@ -236,6 +236,20 @@ class MatriculasController extends Controller
                 'id_usuario_registro'  => Auth::id(),
             ]);
 
+            // Actualizar cantidad_matriculado y cantidad_deudores
+            $horario = CursoHorario::find($request->id_horario);
+            if ($horario) {
+                $horario->increment('cantidad_matriculado');
+
+                if (empty($request->monto) || floatval($request->monto) <= 0) {
+                    $horario->increment('cantidad_deudores');
+                }
+            }
+            // Cambiar estado del estudiante a ACTIVO
+            Estudiante::where('id_estudiante', $request->id_estudiante)
+                ->update(['estado' => 'ACTIVO']);
+
+
             Log::info('Matrícula registrada', [
                 'usuario_id'    => Auth::id(),
                 'matricula_id'  => $matricula->id_matricula,
@@ -365,7 +379,7 @@ class MatriculasController extends Controller
                 'horario.curso.programa'
             ])->findOrFail($id);
 
-            // Eliminar archivos si existen (ahora incluye mensualidades)
+            // Eliminar archivos si existen
             $archivos = [
                 $matricula->ruta_documento,
                 $matricula->ruta_voucher,
@@ -380,20 +394,42 @@ class MatriculasController extends Controller
 
             // Guardar datos relevantes antes de eliminar
             $datosMatricula = [
-                'matricula_id'       => $matricula->id_matricula,
-                'fecha_registro'     => $matricula->fecha_registro,
-                'estado'             => $matricula->estado,
-                'monto'              => $matricula->monto,
-                'pago_completo'      => $matricula->pago_completo,
-                'estudiante'         => optional($matricula->estudiante->persona)->nombres . ' ' .
+                'matricula_id'   => $matricula->id_matricula,
+                'fecha_registro' => $matricula->fecha_registro,
+                'estado'         => $matricula->estado,
+                'monto'          => $matricula->monto,
+                'pago_completo'  => $matricula->pago_completo,
+                'estudiante'     => optional($matricula->estudiante->persona)->nombres . ' ' .
                     optional($matricula->estudiante->persona)->apellido_paterno . ' ' .
                     optional($matricula->estudiante->persona)->apellido_materno,
-                'curso'              => optional($matricula->horario->curso)->nombre_curso,
-                'nivel'              => optional($matricula->horario->curso->nivel)->nombre,
-                'programa'           => optional($matricula->horario->curso->programa)->nombre,
+                'curso'          => optional($matricula->horario->curso)->nombre_curso,
+                'nivel'          => optional($matricula->horario->curso->nivel)->nombre,
+                'programa'       => optional($matricula->horario->curso->programa)->nombre,
             ];
 
+            // Actualizar cantidad_matriculado y cantidad_deudores
+            $horario = CursoHorario::find($matricula->id_horario);
+            if ($horario) {
+                $horario->decrement('cantidad_matriculado');
+
+                $sinPago = empty($matricula->monto) || floatval($matricula->monto) <= 0 || !$matricula->pago_completo;
+                if ($sinPago) {
+                    $horario->decrement('cantidad_deudores');
+                }
+            }
             $matricula->delete();
+
+            // Verificar si el estudiante quedó sin matrículas vigentes
+            $matriculasRestantes = Matricula::where('id_estudiante', $matricula->id_estudiante)
+                ->where('estado', 'VIGENTE')
+                ->whereNull('deleted_at')
+                ->exists();
+
+            if (!$matriculasRestantes) {
+                Estudiante::where('id_estudiante', $matricula->id_estudiante)
+                    ->update(['estado' => 'INACTIVO']);
+            }
+
 
             Log::info('Matrícula eliminada por usuario', [
                 'usuario_id'      => Auth::id(),

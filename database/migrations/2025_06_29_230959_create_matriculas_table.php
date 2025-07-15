@@ -39,7 +39,7 @@ return new class extends Migration
 
             // Estado y control
             $table->text('observacion')->nullable();
-            $table->enum('estado', ['VIGENTE', 'CANCELADA', 'RETIRADA', 'FINALIZADA'])->default('VIGENTE');
+            $table->enum('estado', ['VIGENTE', 'CANCELADA', 'RETIRADA', 'FINALIZADA', 'POSPUESTA'])->default('VIGENTE');
             $table->boolean('validado')->default(false);
             $table->boolean('pago_completo')->default(false)->comment('Pagó la matrícula y todas las cuotas');
             $table->boolean('exonerado')->default(false)->comment('No paga nada por beca 100%');

@@ -33,6 +33,10 @@ return new class extends Migration
             $table->tinyInteger('duracion_meses')->unsigned();
             $table->string('modalidad', 50);
             $table->decimal('precio_mensual', 10, 2);
+
+            $table->unsignedInteger('cantidad_matriculado')->default(0);
+            $table->unsignedInteger('cantidad_deudores')->default(0);
+
             $table->enum('estado', ['ACTIVO', 'INACTIVO', 'FINALIZADO', 'ESPERA'])->default('ACTIVO');
             $table->timestamps();
 

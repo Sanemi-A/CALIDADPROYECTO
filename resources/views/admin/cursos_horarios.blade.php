@@ -412,22 +412,30 @@
 
                             let claseNivel = nivelColor[nivel] || 'badge badge-opacity-secondary';
 
+                            let cantidadMatriculados = row.cantidad_matriculado ?? 0;
+
                             return `
                                 <div class="position-relative" style="padding-top: 1.2rem;">
-                                    <span class="${claseNivel}" style="
-                                        position: absolute;
-                                        top: 0;
-                                        left: 0.1rem;
-                                        font-size: 0.6rem;
-                                        padding: 0.2em 0.4em;
-                                        line-height: 1;
-                                        z-index: 1;
-                                    ">${nivel}</span>
+                                    <div style="position: absolute; top: 0; left: 0.1rem; display: flex; gap: 0.2rem;">
+                                        <span class="${claseNivel}" style="
+                                            font-size: 0.6rem;
+                                            padding: 0.2em 0.4em;
+                                            line-height: 1;
+                                            z-index: 1;
+                                        ">${nivel}</span>
+                                        <span class="badge bg-info" style="
+                                            font-size: 0.6rem;
+                                            padding: 0.2em 0.4em;
+                                            line-height: 1;
+                                            z-index: 1;
+                                        ">${cantidadMatriculados} Matriculados</span>
+                                    </div>
                                     <p class="mb-0 fw-semibold" style="font-size: 0.875rem;">${row.nombre_curso}</p>
                                 </div>
                             `;
                         }
                     },
+
                     {
                         data: 'nombre_docente',
                         render: function(docente) {

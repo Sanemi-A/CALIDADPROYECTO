@@ -164,7 +164,7 @@ class EstudiantesController extends Controller
                 'codigo_estudiante',
             ]);
 
-            $datos['estado'] = $request->estado ?? 'ACTIVO';
+            $datos['estado'] = 'INACTIVO';
             $datos['estado_financiero'] = $request->estado_financiero ?? 'REGULAR';
             $datos['estado_disciplinario'] = $request->estado_disciplinario ?? 'SIN_SANCION';
             $datos['password'] = $documento;
@@ -266,6 +266,34 @@ class EstudiantesController extends Controller
 
                 $datos['foto'] = $request->file('foto')->store('fotos_estudiantes', 'public');
             }
+
+            // Validación adicional para cambio de estado según matrículas vigentes
+            if ($request->estado !== $estudiante->estado) {
+                $tieneMatriculaVigente = \App\Models\Matricula::where('id_estudiante', $estudiante->id_estudiante)
+                    ->where('estado', 'VIGENTE')
+                    ->whereNull('deleted_at')
+                    ->exists();
+
+                if ($request->estado === 'ACTIVO' && !$tieneMatriculaVigente) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->with([
+                            'toast_message' => 'No puedes activar al estudiante porque no tiene matrículas vigentes.',
+                            'toast_type' => 'warning'
+                        ]);
+                }
+
+                if ($request->estado === 'INACTIVO' && $tieneMatriculaVigente) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->with([
+                            'toast_message' => 'No puedes inactivar al estudiante porque tiene matrículas vigentes.',
+                            'toast_type' => 'warning'
+                        ]);
+                }
+            }
+
+
 
             $estudiante->update($datos);
 

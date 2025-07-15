@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\admin\DocentesController;
 use App\Http\Controllers\admin\MatriculasController;
+use App\Http\Controllers\admin\ReportesController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
+
 
 
 Route::get('/', function () {
@@ -121,4 +125,21 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/{id}', [MatriculasController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('reportes')->name('reportes.')->group(function () {
+        Route::get('/cantidad-estudiantes-activos', [ReportesController::class, 'cantidadEstudiantesActivos'])->name('cantidad_estudiantes_activos');
+
+        Route::get('/cantidad-cursos', [ReportesController::class, 'cantidadCursos'])->name('cantidad_cursos');
+    });
+
+    Route::get('/generar-backup', function () {
+        Artisan::call('backup:run');
+        $log = Artisan::output();
+        Log::info('Backup desde vista:', ['log' => $log]);
+
+        return back()->with([
+            'toast_message' => 'Backup generado correctamente',
+            'toast_type' => 'success'
+        ]);
+    })->name('generar.backup');
 });

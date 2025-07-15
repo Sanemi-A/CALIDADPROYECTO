@@ -19,8 +19,10 @@
                                     Soporte</a>
                                 <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i> Recuperar</a>
                                 {{-- color= dribbble --}}
-                                <a href="#" class="btn btn-primary text-white me-0"><i class="icon-download"></i>
-                                    Buckup</a>
+                                <a href="{{ route('generar.backup') }}" class="btn btn-primary text-white me-0">
+                                    <i class="icon-download"></i> Backup
+                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -30,19 +32,19 @@
                                 <div class="col-sm-12">
                                     <div class="statistics-details d-flex align-items-center justify-content-between">
                                         <div>
-                                            <p class="statistics-title">Estudiantes</p>
-                                            <h3 class="rate-percentage">32 <i
+                                            <p class="statistics-title">Estudiantes Activos</p>
+                                            <h3 class="rate-percentage" id="cantidad-estudiantes">0
+                                                <i
                                                     class="dropdown-item-icon mdi mdi-account-group-outline text-primary me-2"></i>
                                             </h3>
-
                                         </div>
                                         <div>
                                             <p class="statistics-title">Cursos</p>
-                                            <h3 class="rate-percentage">16 <i
-                                                    class="dropdown-item-icon mdi mdi-book-outline text-primary me-2"></i>
+                                            <h3 class="rate-percentage" id="cantidad-cursos">0
+                                                <i class="dropdown-item-icon mdi mdi-book-outline text-primary me-2"></i>
                                             </h3>
-
                                         </div>
+
                                         <div>
                                             <p class="statistics-title">Pagos</p>
                                             <h3 class="rate-percentage">18 <i
@@ -349,4 +351,30 @@
                     </div>
                 </div>
             </div>
+
+
+            <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+
+                    // Cargar cantidad de estudiantes activos
+                    fetch('/reportes/cantidad-estudiantes-activos')
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('cantidad-estudiantes').innerHTML = data.cantidad_activos +
+                                ' <i class="dropdown-item-icon mdi mdi-account-group-outline text-primary me-2"></i>';
+                        })
+                        .catch(error => console.error('Error obteniendo cantidad de estudiantes:', error));
+
+                    // Cargar cantidad de cursos
+                    fetch('/reportes/cantidad-cursos')
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('cantidad-cursos').innerHTML = data.cantidad_cursos +
+                                ' <i class="dropdown-item-icon mdi mdi-book-outline text-primary me-2"></i>';
+                        })
+                        .catch(error => console.error('Error obteniendo cantidad de cursos:', error));
+
+                });
+            </script>
         @endsection

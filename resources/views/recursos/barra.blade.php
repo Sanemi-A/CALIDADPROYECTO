@@ -330,19 +330,30 @@
         <script>
             (function($) {
                 $(document).ready(function() {
+                    let toastType = '{{ session('toast_type') }}';
+                    let loaderColor = '#f96868'; // color por defecto (error)
+
+                    if (toastType === 'success') loaderColor = '#28a745'; // verde éxito
+                    else if (toastType === 'info') loaderColor = '#17a2b8'; // celeste info
+                    else if (toastType === 'warning') loaderColor = '#ffc107'; // amarillo advertencia
+                    else loaderColor = '#dc3545'; // rojo error
+
                     $.toast({
-                        heading: '{{ session('toast_type') === 'success'
-                            ? 'Éxito'
-                            : (session('toast_type') === 'info'
-                                ? 'Información'
-                                : (session('toast_type') === 'warning'
-                                    ? 'Advertencia'
-                                    : 'Error')) }}',
+                        heading: toastType === 'success' ? 'Éxito' : (toastType === 'info' ? 'Información' :
+                            (toastType === 'warning' ? 'Advertencia' : 'Error')),
                         text: @json(session('toast_message')),
                         showHideTransition: 'slide',
-                        icon: '{{ session('toast_type') }}',
-                        loaderBg: '#f96868',
-                        position: 'bottom-right'
+                        icon: toastType,
+                        loaderBg: loaderColor,
+                        position: 'bottom-right',
+                        hideAfter: 5000,
+                        stack: 5
+                    });
+
+                    $(document).on('mouseenter', '.jq-toast-single', function() {
+                        $(this).stop(true, true);
+                    }).on('mouseleave', '.jq-toast-single', function() {
+                        $(this).delay(5000).fadeOut(400);
                     });
                 });
             })(jQuery);

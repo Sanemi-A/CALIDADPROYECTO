@@ -29,8 +29,9 @@ class CursoHorario extends Model
         'viernes',
         'sabado',
         'domingo',
+        'cantidad_matriculado',
+        'cantidad_deudores',
     ];
-
 
     protected $casts = [
         'fecha_inicio' => 'date',
@@ -39,6 +40,8 @@ class CursoHorario extends Model
         'hora_fin' => 'datetime:H:i',
         'duracion_meses' => 'integer',
         'precio_mensual' => 'decimal:2',
+        'cantidad_matriculado' => 'integer',
+        'cantidad_deudores' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

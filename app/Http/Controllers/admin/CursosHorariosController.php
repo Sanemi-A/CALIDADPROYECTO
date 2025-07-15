@@ -46,10 +46,13 @@ class CursosHorariosController extends Controller
                 'curso_horarios.viernes',
                 'curso_horarios.sabado',
                 'curso_horarios.domingo',
+                'curso_horarios.cantidad_matriculado',
+                'curso_horarios.cantidad_deudores',
                 'cursos.nombre_curso',
                 'niveles.nombre as nivel',
                 DB::raw("IFNULL(CONCAT(personas.nombres, ' ', personas.apellido_paterno, ' ', personas.apellido_materno), 'Sin docente') AS nombre_docente")
             );
+
         $totalRecords = $queryBase->count();
         $query = clone $queryBase;
 
@@ -81,9 +84,12 @@ class CursosHorariosController extends Controller
                 if ($row->domingo) $dias[] = 'Dom';
 
                 $row->dias = implode(', ', $dias);
+
+                // Puedes darle formato a los nuevos campos si quieres:
+                $row->resumen_matriculas = "{$row->cantidad_matriculado} matriculados / {$row->cantidad_deudores} deudores";
+
                 return $row;
             });
-
 
         return response()->json([
             'draw' => intval($request->input('draw')),
@@ -92,6 +98,7 @@ class CursosHorariosController extends Controller
             'data' => $data,
         ]);
     }
+
 
 
 
