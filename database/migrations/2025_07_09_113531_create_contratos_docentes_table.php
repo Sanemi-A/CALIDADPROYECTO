@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -20,7 +19,7 @@ return new class extends Migration
             $table->string('tipo_contrato', 50)->comment('Honorarios, CAS, Nombrado, etc.');
             $table->enum('estado', ['VIGENTE', 'FINALIZADO', 'ANULADO'])->default('VIGENTE');
             $table->text('observacion')->nullable();
-            $table->timestamps(); 
+            $table->timestamps();
 
 
             // Claves foráneas

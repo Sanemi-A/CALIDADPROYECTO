@@ -65,16 +65,13 @@ class MatriculasController extends Controller
                 'matriculas.ruta_voucher_mensualidades',
                 'matriculas.estado',
                 'matriculas.validado',
-
                 'est.nombres as estudiante_nombres',
                 'est.apellido_paterno as estudiante_apellido_paterno',
                 'est.apellido_materno as estudiante_apellido_materno',
                 'est.documento',
-
                 'cursos.nombre_curso',
                 'niveles.nombre as nivel',
                 'programas.nombre as programa',
-
                 'curso_horarios.modalidad',
                 'curso_horarios.duracion_meses',
                 'curso_horarios.precio_mensual',
@@ -87,7 +84,6 @@ class MatriculasController extends Controller
                 'curso_horarios.viernes',
                 'curso_horarios.sabado',
                 'curso_horarios.domingo',
-
                 DB::raw("CONCAT(usr.nombres, ' ', usr.apellido_paterno) as responsable")
             );
 

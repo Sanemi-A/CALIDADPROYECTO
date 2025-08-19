@@ -16,8 +16,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 
-
-
 Route::get('/', function () {
     return redirect()->route('login');
 });

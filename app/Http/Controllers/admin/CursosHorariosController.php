@@ -75,13 +75,27 @@ class CursosHorariosController extends Controller
             ->get()
             ->map(function ($row) {
                 $dias = [];
-                if ($row->lunes) $dias[] = 'Lun';
-                if ($row->martes) $dias[] = 'Mar';
-                if ($row->miercoles) $dias[] = 'Mié';
-                if ($row->jueves) $dias[] = 'Jue';
-                if ($row->viernes) $dias[] = 'Vie';
-                if ($row->sabado) $dias[] = 'Sáb';
-                if ($row->domingo) $dias[] = 'Dom';
+                if ($row->lunes) {
+                    $dias[] = 'Lun';
+                }
+                if ($row->martes) {
+                    $dias[] = 'Mar';
+                }
+                if ($row->miercoles) {
+                    $dias[] = 'Mié';
+                }
+                if ($row->jueves) {
+                    $dias[] = 'Jue';
+                }
+                if ($row->viernes) {
+                    $dias[] = 'Vie';
+                }
+                if ($row->sabado) {
+                    $dias[] = 'Sáb';
+                }
+                if ($row->domingo) {
+                    $dias[] = 'Dom';
+                }
 
                 $row->dias = implode(', ', $dias);
 

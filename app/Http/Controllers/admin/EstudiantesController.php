@@ -16,7 +16,6 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
-
 class EstudiantesController extends Controller
 {
     public function index()
