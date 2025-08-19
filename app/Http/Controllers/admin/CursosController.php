@@ -8,7 +8,6 @@ use App\Models\Nivel;
 use App\Models\Programa;
 use Illuminate\Http\Request;
 
-
 class CursosController extends Controller
 {
     public function index()

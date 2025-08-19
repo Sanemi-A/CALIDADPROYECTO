@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-
-
     public function index()
     {
         $usuarios = User::with(['role', 'persona'])->get();

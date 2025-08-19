@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -20,7 +19,7 @@ return new class extends Migration
             $table->enum('estado', ['GENERADO', 'ENTREGADO', 'ANULADO'])->default('GENERADO');
             $table->text('observacion')->nullable();
             $table->timestamps();
-            
+
             $table->foreign('id_matricula')->references('id_matricula')->on('matriculas')->onDelete('cascade');
         });
     }
